@@ -34,7 +34,7 @@ public class DataSet {
     
     public DataSet(String filename) {
         readFile(filename);
-        printDataSet();
+        //printDataSet();
     }
     
     public void readFile(String filename) {
