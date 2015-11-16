@@ -8,19 +8,27 @@ import java.io.File;
 
 public class NaiveBayes {
 	private List<Map<String,Map<String,Integer>>> model;
+        private Map<String,Integer> classes = new HashMap<>();
+        private int datasize;
 
 	public NaiveBayes(List<List<String>> dataset) {
 		int i;
 		int j;
 		int natr = dataset.get(0).size();
+                datasize = dataset.size();
 
 		model = new ArrayList<>();
 		for (i=0;i<natr;i++) {
 			model.add(new HashMap<>());
 		}
 
-		for (i=0;i<dataset.size();i++) {
+		for (i=0;i<datasize;i++) {
 			String classvalue = dataset.get(i).get(natr-1);
+                        if (!classes.containsKey(classvalue)) {
+                            classes.put(classvalue,1);
+                        } else {
+                            classes.put(classvalue,classes.get(classvalue)+1);
+                        }
 			for (j=0;j<natr-1;j++) {
 				String atrvalue = dataset.get(i).get(j);
 				if (!model.get(j).containsKey(atrvalue)) {
@@ -45,5 +53,25 @@ public class NaiveBayes {
                     }
                     System.out.println();
                 }
+                
+        }
+        
+        public String classify(List<String> newdata) {
+            double maxp = 0;
+            double p;
+            String classified = "";
+            for (Map.Entry<String,Integer> classesEntry : classes.entrySet()) {
+                p=(double)classesEntry.getValue()/(double)datasize;                
+                for (int i=0;i<newdata.size()-1;i++) {
+                    double atrp = model.get(i).get(newdata.get(i)).containsKey(classesEntry.getKey()) ? (double)model.get(i).get(newdata.get(i)).get(classesEntry.getKey())/(double)classesEntry.getValue() : 0;
+                    p *= atrp;
+                }
+                System.out.println("P("+classesEntry.getKey()+") = "+p);
+                if (p>=maxp) {
+                    maxp = p;
+                    classified = classesEntry.getKey();
+                }
+            }
+            return classified;
         }
 }

@@ -21,16 +21,21 @@ public class FancatsticFour {
         // TODO code application logic here
          System.out.println("Working Directory = " +
               System.getProperty("user.dir"));
-        DataSet data = new DataSet("car.txt");
-        /*List<String> identify = new ArrayList<>();
-        identify.add("vhigh");
+        DataSet data = new DataSet("weather.txt");
+        List<String> identify = new ArrayList<>();
+        /*identify.add("vhigh");
         identify.add("vhigh");
         identify.add("2");
         identify.add("2");
         identify.add("small");
-        identify.add("low");
-        kNN knn = new kNN(data,identify,4);*/
+        identify.add("low");*/
+        identify.add("sunny");
+        identify.add("hot");
+        identify.add("high");
+        identify.add("FALSE");
+        //kNN knn = new kNN(data,identify,4);
         NaiveBayes nb = new NaiveBayes(data.getData());
+        System.out.println(nb.classify(identify));
     }
     
 }
