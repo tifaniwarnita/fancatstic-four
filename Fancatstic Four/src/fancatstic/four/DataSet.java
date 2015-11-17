@@ -16,7 +16,7 @@ import java.util.List;
  * @author Tifani
  */
 public class DataSet {
-    private List<List<String>> data = new ArrayList<>(); //TODO: nyimpennya ga dalam bentuk string biar bagus harusnya integer kali ya ga tau deh
+    private List<List<String>> dataset = new ArrayList<>(); //TODO: nyimpennya ga dalam bentuk string biar bagus harusnya integer kali ya ga tau deh
     /* private List<List<Info>> attributeInfo;
     
     public class Info {
@@ -34,7 +34,7 @@ public class DataSet {
     
     public DataSet(String filename) {
         readFile(filename);
-        printDataSet();
+        //printDataSet();
     }
     
     public void readFile(String filename) {
@@ -48,7 +48,7 @@ public class DataSet {
                 for (int i=0; i<list.length; i++) {
                     instance.add(list[i]);
                 }
-                data.add(instance);
+                dataset.add(instance);
                 line = br.readLine();
             }
             br.close();
@@ -58,15 +58,15 @@ public class DataSet {
     }
     
     public void printDataSet() {
-        for(int i=0; i<data.size(); i++) {
-            for(int j=0; j<data.get(i).size(); j++) {
-                System.out.print(data.get(i).get(j) + " ");
+        for(int i=0; i<dataset.size(); i++) {
+            for(int j=0; j<dataset.get(i).size(); j++) {
+                System.out.print(dataset.get(i).get(j) + " ");
             }
             System.out.println("");
         }
     }
     
-    public List<List<String>> getData() {
-        return data;
+    public List<List<String>> getDataset() {
+        return dataset;
     }
 }

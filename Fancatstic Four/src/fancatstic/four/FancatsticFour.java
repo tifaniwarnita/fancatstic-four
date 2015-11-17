@@ -21,7 +21,7 @@ public class FancatsticFour {
         // TODO code application logic here
          System.out.println("Working Directory = " +
               System.getProperty("user.dir"));
-        DataSet data = new DataSet("kucing.txt");
+        DataSet data = new DataSet("car.data");
         List<String> identify = new ArrayList<>();
         identify.add("vhigh");
         identify.add("vhigh");
@@ -29,7 +29,9 @@ public class FancatsticFour {
         identify.add("2");
         identify.add("small");
         identify.add("low");
-        kNN knn = new kNN(data,identify,4);
+        kNN knn = new kNN(data,identify,1728);
+        //knn.printQueue();
+        System.out.println(knn.solve());
     }
     
 }
