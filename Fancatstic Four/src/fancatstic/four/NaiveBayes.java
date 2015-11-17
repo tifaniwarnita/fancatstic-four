@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 public class NaiveBayes {
 	private List<Map<String,Map<String,Integer>>> model;
@@ -56,6 +58,18 @@ public class NaiveBayes {
                 
         }
         
+        public List<Map<String,Map<String,Integer>>> getModel(){
+            return model;
+        }
+        
+        public Map<String,Integer> getClasses() {
+            return classes;
+        }
+        
+        public int getDatasize() {
+            return datasize;
+        }
+        
         public String classify(List<String> newdata) {
             double maxp = 0;
             double p;
@@ -73,5 +87,21 @@ public class NaiveBayes {
                 }
             }
             return classified;
+        }
+        
+        public void exportModel(String filename) throws FileNotFoundException, UnsupportedEncodingException{
+            try (PrintWriter writer = new PrintWriter(filename, "UTF-8")) {
+                for (int i=0;i<model.size()-1;i++) {
+                    writer.println("Attribute " + (i+1));
+                    for (Map.Entry<String, Map<String,Integer>> entry : model.get(i).entrySet()) {
+                        writer.print(entry.getKey());
+                        for (Map.Entry<String,Integer> entry2 : entry.getValue().entrySet()) {
+                           writer.print(" - "+entry2.getKey()+": "+entry2.getValue());
+                        }
+                        writer.println();
+                    }
+                    writer.println();
+                }
+            }
         }
 }
