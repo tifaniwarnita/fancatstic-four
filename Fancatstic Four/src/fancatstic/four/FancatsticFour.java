@@ -21,8 +21,9 @@ public class FancatsticFour {
         // TODO code application logic here
          System.out.println("Working Directory = " +
               System.getProperty("user.dir"));
-        DataSet data = new DataSet("car.data");
-        List<String> identify = new ArrayList<>();
+        DataSet data = new DataSet("weather.txt");
+        
+        /*List<String> identify = new ArrayList<>();
         identify.add("vhigh");
         identify.add("vhigh");
         identify.add("2");
@@ -30,8 +31,14 @@ public class FancatsticFour {
         identify.add("small");
         identify.add("low");
         kNN knn = new kNN(data,identify,1728);
-        //knn.printQueue();
-        System.out.println(knn.solve());
+        knn.printQueue();
+        System.out.println(knn.solve()); */
+        
+        NaiveBayes nb = new NaiveBayes(data.getDataset());
+        List<String> hasil = nb.fullTraining(data.getDataset());
+        for (int i =0; i<hasil.size(); i++){
+            System.out.println(hasil.get(i));
+        }
     }
     
 }

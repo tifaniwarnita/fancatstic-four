@@ -104,4 +104,16 @@ public class NaiveBayes {
                 }
             }
         }
+        
+        public List<String> fullTraining(List<List<String>> dataset){
+            List<String> hasil = new ArrayList<>();
+            for (int i=0; i< dataset.size() ; i++){
+                List<String> test = new ArrayList<>();
+                for (int j=0; j< dataset.get(0).size()-1; j++){
+                    test.add(dataset.get(i).get(j));
+                }
+               hasil.add(classify(test));
+            }
+            return hasil;
+        }
 }
