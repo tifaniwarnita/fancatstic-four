@@ -105,7 +105,7 @@ public class NaiveBayes {
             }
         }
         
-        public List<String> fullTraining(List<List<String>> dataset){
+        public List<String> testSet(List<List<String>> dataset){
             List<String> hasil = new ArrayList<>();
             for (int i=0; i< dataset.size() ; i++){
                 List<String> test = new ArrayList<>();
@@ -115,5 +115,18 @@ public class NaiveBayes {
                hasil.add(classify(test));
             }
             return hasil;
+        }
+        
+        public float accuracy(List<List<String>> dataset, List<String> result){
+            int natr = dataset.get(0).size();
+            int a=0;
+            for (int i=0; i < dataset.size(); i++){
+                String r = dataset.get(i).get(natr-1);
+                if (r.equals(result.get(i))){
+                    a++;
+                }
+            }
+            float acc = (float)a/dataset.size();
+            return acc;
         }
 }

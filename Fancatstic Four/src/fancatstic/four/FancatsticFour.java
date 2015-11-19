@@ -35,10 +35,11 @@ public class FancatsticFour {
         System.out.println(knn.solve()); */
         
         NaiveBayes nb = new NaiveBayes(data.getDataset());
-        List<String> hasil = nb.fullTraining(data.getDataset());
+        List<String> hasil = nb.testSet(data.getDataset());
         for (int i =0; i<hasil.size(); i++){
             System.out.println(hasil.get(i));
         }
+        System.out.println(nb.accuracy(data.getDataset(), hasil));
     }
     
 }
