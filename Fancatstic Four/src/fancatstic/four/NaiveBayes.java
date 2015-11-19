@@ -53,7 +53,6 @@ public class NaiveBayes {
                             model.get(atrName).get(atrValue).put(classValue,model.get(atrName).get(atrValue).get(classValue)+1);
 			}
 		}
-                
                 return model;
         }
        
@@ -113,7 +112,6 @@ public class NaiveBayes {
                 }
             }
         }
-<<<<<<< HEAD
         
         public List<String> testSet(List<List<String>> dataset, Map<String,Map<String,Map<String,Integer>>> model){
             List<String> hasil = new ArrayList<>();
@@ -154,21 +152,32 @@ public class NaiveBayes {
         }
         
         void crossValidation(int folds) {
-            /*
-            float sumacc = 0;
-            float maxacc = 0;
-            for (int i=0;i<folds;i++) {
-                    //testingset =  ambil folds% dari dataset
-                    //trainingset = (100-folds)% dari dataset
-                    createModel(trainingset);
-                    float acc = accuracy(testingset,testSet(testingset));
-                    sumacc += acc;
-                    if (acc>maxacc) maxacc = acc;
-            }
-            float avgacc = sumacc/dataset.size();
-            System.out.println("Average accuracy: "+avgacc);
-            System.out.println("Max accuracy: "+maxacc);*/
-        }
-=======
->>>>>>> origin/master
+	float sumacc = 0;
+	float maxacc = 0;
+	int last = 0;
+	int start;
+	List<List<String>> trainingset =  new ArrayList<>();
+	List<List<String>> testingset;
+	for (int i=0;i<folds;i++) {
+            System.out.println("i = "+i);
+		start = last;
+		last = start + fullset.size()/folds;
+		if (i < fullset.size() % folds) {
+                    last++;
+		}
+		testingset =  fullset.subList(start,last);
+                trainingset.clear();
+		if (start>0) trainingset.addAll(fullset.subList(0,start));
+                trainingset.addAll(fullset.subList(last,fullset.size()));
+                
+		float acc = accuracy(testingset,testSet(testingset,createModel(trainingset)));
+                System.out.println("Accuracy: "+acc);
+                System.out.println();
+		sumacc += acc;
+		if (acc>maxacc) maxacc = acc;
+	}
+	float avgacc = (float)sumacc/(float)folds;
+	System.out.println("Average accuracy: "+avgacc*100+"%");
+	System.out.println("Max accuracy: "+maxacc*100+"%");
+    }
 }
