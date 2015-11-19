@@ -113,6 +113,7 @@ public class NaiveBayes {
                 }
             }
         }
+<<<<<<< HEAD
         
         public List<String> testSet(List<List<String>> dataset, Map<String,Map<String,Map<String,Integer>>> model){
             List<String> hasil = new ArrayList<>();
@@ -168,4 +169,6 @@ public class NaiveBayes {
             System.out.println("Average accuracy: "+avgacc);
             System.out.println("Max accuracy: "+maxacc);*/
         }
+=======
+>>>>>>> origin/master
 }
