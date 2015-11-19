@@ -19,46 +19,12 @@ public class FancatsticFour {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-         System.out.println("Working Directory = " +
-              System.getProperty("user.dir"));
-//<<<<<<< HEAD
-       // DataSet data = new DataSet("car.data");
-//=======
+        System.out.println("Working Directory = " +
+        System.getProperty("user.dir"));
         DataSet data = new DataSet("weather.txt");
-//>>>>>>> origin/master
-    /*    List<String> identify = new ArrayList<>();
-        identify.add("vhigh");
-        identify.add("vhigh");
-        identify.add("2");
-        identify.add("2");
-        identify.add("small");
-        identify.add("low");
-*/
-    List<String> oldClasses = new ArrayList<>();
-    int attr = data.getDataset().get(0).size()-1;
-    for (int i=0; i<data.getDataset().size(); i++) {
-        oldClasses.add(data.getDataset().get(i).get(attr));
-    }
-    
-    List<String> newClasses = new ArrayList<>();
-    List<kNN> knn = new ArrayList<>();
-    for (int i=0; i<data.getDataset().size(); i++) {
-        knn.add(new kNN(data,data.getDataset().get(i),3));
-        //knn.printQueue();
-        newClasses.add(knn.get(i).solve());
-    }
-    
-    int countAccuracy = 0;
-    for (int i=0; i<data.getDataset().size(); i++) {
-        if (oldClasses.get(i).equals(newClasses.get(i))){
-            //System.out.println("same");
-            countAccuracy++;
-        }
-    }
-    float accuracy = (float)countAccuracy / (float)data.getDataset().size();
-
-    System.out.println("Accuracy = " + accuracy);
-    
+        /*List<String> identify = new ArrayList<>();
+>>>>>>> a592f84be37b5d5b825395b9ad3a379e8d159b96
+  
 /*=======
         identify.add("low");
         identify.add("sunny");
@@ -68,7 +34,22 @@ public class FancatsticFour {
         //kNN knn = new kNN(data,identify,4);
         NaiveBayes nb = new NaiveBayes(data.getDataset());
         System.out.println(nb.classify(identify));
->>>>>>> origin/master*/
+>>>>>>> origin/master
+=======
+        kNN knn = new kNN(data,identify,1728);
+        knn.printQueue();
+        System.out.println(knn.solve());
+        
+        NaiveBayes nb = new NaiveBayes(data.getDataset());
+        List<String> hasil = nb.testSet(data.getDataset());
+        for (int i =0; i<hasil.size(); i++){
+            System.out.println(hasil.get(i));
+        }
+        System.out.println(nb.accuracy(data.getDataset(), hasil));
+>>>>>>> a592f84be37b5d5b825395b9ad3a379e8d159b96*/
+        
+        kNNSolver fulltraining = new kNNSolver(data,7);
+        System.out.println("Accuracy kNN full-training : " + fulltraining.countAccuracy()*100 + "%");
     }
     
 }
