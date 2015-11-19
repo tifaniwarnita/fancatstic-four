@@ -6,7 +6,10 @@
 package fancatstic.four;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -34,12 +37,18 @@ public class FancatsticFour {
         knn.printQueue();
         System.out.println(knn.solve()); */
         
-        NaiveBayes nb = new NaiveBayes(data.getDataset());
-        List<String> hasil = nb.testSet(data.getDataset());
-        for (int i =0; i<hasil.size(); i++){
-            System.out.println(hasil.get(i));
-        }
-        System.out.println(nb.accuracy(data.getDataset(), hasil));
+        List<String> classValues = new ArrayList<>();
+        classValues.add("yes");
+        classValues.add("no");
+        
+        List<String> attributes = new ArrayList<>(Arrays.asList("outlook","temperature","humidity","windy"));
+        Map<String,List<String>> attributeValues = new HashMap<>();
+        attributeValues.put("outlook", new ArrayList<>(Arrays.asList("sunny","overcast","rainy")));
+        attributeValues.put("temperature", new ArrayList<>(Arrays.asList("hot","mild","cool")));
+        attributeValues.put("humidity", new ArrayList<>(Arrays.asList("high","normal")));
+        attributeValues.put("windy", new ArrayList<>(Arrays.asList("TRUE","FALSE")));
+        NaiveBayes nb = new NaiveBayes(data.getDataset(),attributes,attributeValues,classValues);
+        nb.fullTraining();
     }
     
 }
