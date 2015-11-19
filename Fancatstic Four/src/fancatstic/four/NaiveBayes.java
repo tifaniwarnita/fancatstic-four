@@ -180,4 +180,43 @@ public class NaiveBayes {
 	System.out.println("Average accuracy: "+avgacc*100+"%");
 	System.out.println("Max accuracy: "+maxacc*100+"%");
     }
+        
+    void randCrossValidation(int folds) {
+	float sumacc = 0;
+	float maxacc = 0;
+	int n;
+	List<List<String>> trainingset =  new ArrayList<>();
+	List<List<String>> testingset = new ArrayList<>();
+        java.util.Set<Integer> testNumbers = new java.util.HashSet<>();
+        java.util.Random rng = new java.util.Random();
+	for (int i=0;i<folds;i++) {
+            System.out.println("i = "+i);
+		n = fullset.size()/folds;
+		if (i < fullset.size() % folds) {
+                    n++;
+		}
+                testNumbers.clear();
+                while (testNumbers.size() < n) {
+                    Integer next = rng.nextInt(fullset.size()-1) + 1;
+                    testNumbers.add(next);
+                }
+                testingset.clear();
+                trainingset.clear();
+                for (int j=0;j<fullset.size();j++) {
+                    if (!testNumbers.contains(j)) {
+                        trainingset.add(fullset.get(j));
+                    } else {
+                        testingset.add(fullset.get(j));
+                    }
+                }
+		float acc = accuracy(testingset,testSet(testingset,createModel(trainingset)));
+                System.out.println("Accuracy: "+acc);
+                System.out.println();
+		sumacc += acc;
+		if (acc>maxacc) maxacc = acc;
+	}
+	float avgacc = (float)sumacc/(float)folds;
+	System.out.println("Average accuracy: "+avgacc*100+"%");
+	System.out.println("Max accuracy: "+maxacc*100+"%");
+    }
 }
