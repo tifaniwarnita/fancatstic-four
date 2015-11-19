@@ -13,8 +13,8 @@ import java.util.*;
  */
 public class kNN {
     private int k;
-    PriorityQueue<Neighbor> neighbors;
-    List<DataClass> classes = new ArrayList<>();
+    private PriorityQueue<Neighbor> neighbors;
+    private List<DataClass> classes = new ArrayList<>();
     
     public kNN() {
         
@@ -25,7 +25,6 @@ public class kNN {
         neighbors = new PriorityQueue(k, new Comparator<Neighbor>() {
             @Override
             public int compare(Neighbor neighbor1, Neighbor neighbor2) {
-                //return neighbor1.getDistance() < neighbor2.getDistance() ? -1 : neighbor1.getDistance() == neighbor2.getDistance() ? 0 : 1;
                 return Integer.compare(neighbor1.getDistance(),neighbor2.getDistance());
             }
     }   );
@@ -50,20 +49,16 @@ public class kNN {
     }
     
     public void printQueue(){
-        //List<Neighbor> copy = new ArrayList<Neighbor>(neighbors);
         PriorityQueue<Neighbor> copy = new PriorityQueue<Neighbor>(neighbors);
             
         for(int i=0; i<k; i++){
-                System.out.print(copy.peek().getIndex() + " - " + copy.peek().getDistance());
+                System.out.println(copy.peek().getIndex() + " - " + copy.peek().getDistance());
                 copy.remove();
-                //System.out.print(copy.get(i).getIndex() + " - " + copy.get(i).getDistance());
-                System.out.println();
         }
-        System.out.println();
-
     }
     
-    public void countClasses(){
+    public String solve(){
+        // Mencari jumlah masing-masing kelas pada array Neighbor
         PriorityQueue<Neighbor> copy = new PriorityQueue<Neighbor>(neighbors);
         for(int i=0; i<k; i++){
             List<String> data = new ArrayList<>(copy.peek().getData());
@@ -93,12 +88,22 @@ public class kNN {
             }
         }
         
+        /* Mengeprint jumlah data dari setiap kelas
         for(int i=0; i<classes.size(); i++){
             classes.get(i).printData();
         }
+        */
+        classes.sort(new Comparator<DataClass>(){
+            @Override
+            public int compare(DataClass d1, DataClass d2) {
+                return d1.getCount() < d2.getCount() ? 1 : -1;
+            }
+        });
+        
+        return classes.get(0).getClassData();
         
     }
-    
+    /*
     public String solve(){
         countClasses();
         classes.sort(new Comparator<DataClass>(){
@@ -109,4 +114,5 @@ public class kNN {
     });
         return classes.get(0).getClassData();
     }
+    */
 }
