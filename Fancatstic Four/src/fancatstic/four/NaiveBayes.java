@@ -85,30 +85,51 @@ public class NaiveBayes {
         }
         
         public void printModel(Map<String,Map<String,Map<String,Integer>>> model) {
+            int total=0;
+            for (String classval : classValues){
+                total += model.get("Class").get("Total").get(classval);
+            }
             for (String atrName : attributes) {
                     System.out.println(atrName);
                     for (String atrValue : attributeValues.get(atrName)) {
                         System.out.print(atrValue);
                         for (String classValue : classValues) {
-                            System.out.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue));
+                            System.out.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue)+"/"+total);
                         }
                         System.out.println();
                     }
                     System.out.println();
             }
+            System.out.println("Class");
+            for (String classval : classValues){
+                System.out.print(classval+" - ");
+                System.out.println(model.get("Class").get("Total").get(classval)+"/"+total);
+            }
+            System.out.println();
         }
+        
         public void exportModel(String filename, Map<String,Map<String,Map<String,Integer>>> model) throws FileNotFoundException, UnsupportedEncodingException{
             try (PrintWriter writer = new PrintWriter(filename, "UTF-8")) {
+                int total=0;
+                for (String classval : classValues){
+                    total += model.get("Class").get("Total").get(classval);
+                }
+                
                 for (String atrName : attributes) {
                     writer.println(atrName);
                     for (String atrValue : attributeValues.get(atrName)) {
                         writer.print(atrValue);
                         for (String classValue : classValues) {
-                            writer.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue));
+                            writer.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue)+"/"+total);
                         }
                         writer.println();
                     }
                     writer.println();
+                }
+                writer.println("Class");
+                for (String classval : classValues){
+                    writer.print(classval+" - ");
+                    writer.println(model.get("Class").get("Total").get(classval)+"/"+total);
                 }
             }
         }
