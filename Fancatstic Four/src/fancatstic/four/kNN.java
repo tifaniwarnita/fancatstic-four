@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class kNN {
     private int k;
-    private DataSet data;
+    private List<List<String>> data;
     private PriorityQueue<Neighbor> neighbors;
     private List<DataClass> classes = new ArrayList<>();
     
@@ -21,26 +21,26 @@ public class kNN {
         // Empty constructor
     }
     
-    public kNN(DataSet _data, List<String> identify, int _k) {
+    public kNN(List<List<String>> _data, List<String> identify, int _k) {
         k = _k;
         data = _data;
         neighbors = new PriorityQueue(k, new Comparator<Neighbor>() {
             @Override
             public int compare(Neighbor neighbor1, Neighbor neighbor2) {
-                return Integer.compare(neighbor2.distance, neighbor1.distance);
+                return (neighbor1.distance < neighbor2.distance ? 1 : -1);
             }
         });
         
         // Menghitung jarak dari setiap atribut
-        for (int i=0; i<data.getDataset().size(); i++) {
+        for (int i=0; i<data.size(); i++) {
             int dis = 0;
-            for (int j=0; j<data.getDataset().get(i).size()-1; j++) {
-                if (data.getDataset().get(i).get(j).equals(identify.get(j))) {
+            for (int j=0; j<data.get(i).size()-1; j++) {
+                if (data.get(i).get(j).equals(identify.get(j))) {
                     
                 } else {
                     dis++;
                 }
-                System.out.print(data.getDataset().get(i).get(j) + " ");
+                System.out.print(data.get(i).get(j) + " ");
             }
             System.out.println("distance: " + dis);
             Neighbor n = new Neighbor(i,dis);
@@ -74,7 +74,7 @@ public class kNN {
             int j = 0;
             while ((j < classes.size()) && !found){
                 // Jika kelas yang sama sudah ada, maka counter hanya akan bertambah
-                if (data.getClass(n.index).equals(classes.get(j).classData)){
+                if (data.get(n.index).get(data.get(n.index).size()-1).equals(classes.get(j).classData)){
                     classes.get(j).addCounter();
                     found = true;
                 } else {
@@ -83,14 +83,14 @@ public class kNN {
             }
             // Jika kelas belum ada pada list, maka kelas akan ditambahkan
             if (!found){
-                DataClass newData = new DataClass(data.getClass(n.index));
+                DataClass newData = new DataClass(data.get(n.index).get(data.get(n.index).size()-1));
                 classes.add(newData);
             }
         }
         classes.sort(new Comparator<DataClass>(){
                 @Override
                 public int compare(DataClass d1, DataClass d2) {
-                    return (d1.count < d2.count ? 1 : -1);
+                    return (d1.count <= d2.count ? 1 : -1);
                 }
         });
         

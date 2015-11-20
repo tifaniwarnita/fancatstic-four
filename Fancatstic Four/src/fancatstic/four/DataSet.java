@@ -121,7 +121,7 @@ public class DataSet {
         }
     }
     
-    public String getClass(int i) {
-        return dataset.get(i).get(dataset.get(i).size()-1);
+    public String getClass(int index){
+        return dataset.get(index).get(dataset.get(index).size()-1);
     }
 }
