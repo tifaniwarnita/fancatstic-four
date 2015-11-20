@@ -1,6 +1,7 @@
 package fancatstic.four;
 
 
+import fancatstic.four.DataSet;
 import java.util.*;
 
 /*
@@ -31,7 +32,7 @@ public class kNNSolver {
     
         for (int i=0; i<data.getDataset().size(); i++) {
             knn.add(new kNN(data,data.getDataset().get(i),k));
-            newClasses.add(knn.get(i).solve());
+           // newClasses.add(knn.get(i).solve());
         }
     }
     
