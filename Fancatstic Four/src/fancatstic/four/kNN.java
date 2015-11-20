@@ -27,7 +27,7 @@ public class kNN {
         neighbors = new PriorityQueue(k, new Comparator<Neighbor>() {
             @Override
             public int compare(Neighbor neighbor1, Neighbor neighbor2) {
-                return Integer.compare(neighbor2.distance, neighbor1.distance);
+                return (neighbor1.distance < neighbor2.distance ? 1 : -1);
             }
         });
         
@@ -74,7 +74,7 @@ public class kNN {
             int j = 0;
             while ((j < classes.size()) && !found){
                 // Jika kelas yang sama sudah ada, maka counter hanya akan bertambah
-                if (data.get(n.index).get(data.size()-1).equals(classes.get(j).classData)){
+                if (data.get(n.index).get(data.get(n.index).size()-1).equals(classes.get(j).classData)){
                     classes.get(j).addCounter();
                     found = true;
                 } else {
@@ -83,14 +83,14 @@ public class kNN {
             }
             // Jika kelas belum ada pada list, maka kelas akan ditambahkan
             if (!found){
-                DataClass newData = new DataClass(data.get(n.index).get(data.size()-1));
+                DataClass newData = new DataClass(data.get(n.index).get(data.get(n.index).size()-1));
                 classes.add(newData);
             }
         }
         classes.sort(new Comparator<DataClass>(){
                 @Override
                 public int compare(DataClass d1, DataClass d2) {
-                    return (d1.count < d2.count ? 1 : -1);
+                    return (d1.count <= d2.count ? 1 : -1);
                 }
         });
         

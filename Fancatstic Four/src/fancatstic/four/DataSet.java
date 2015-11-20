@@ -120,4 +120,8 @@ public class DataSet {
             System.out.println("");
         }
     }
+    
+    public String getClass(int index){
+        return dataset.get(index).get(dataset.get(index).size()-1);
+    }
 }

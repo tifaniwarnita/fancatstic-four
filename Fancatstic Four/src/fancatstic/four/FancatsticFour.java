@@ -36,7 +36,7 @@ public class FancatsticFour {
                 System.out.println("==================");
                 System.out.println("k-Nearest Neighbor");
                 System.out.println("==================");
-                List<String> identify = new ArrayList<>();
+                /* List<String> identify = new ArrayList<>();
                 identify.add("sunny");
                 identify.add("hot");
                 identify.add("high");
@@ -46,9 +46,9 @@ public class FancatsticFour {
                 System.out.println(knn.solve());
                 //knn.printQueue();
                 //System.out.println(knn.solve());
-
-                //kNNSolver fulltraining = new kNNSolver(data,3);
-                //System.out.println("Accuracy kNN full-training : " + fulltraining.countAccuracy()*100 + "%");
+                */
+                kNNSolver fulltraining = new kNNSolver(data,1,2);
+                System.out.println("Accuracy kNN full-training : " + fulltraining.countAccuracy()*100 + "%");
                 break;
             }
             case 2: { // Naive Bayes
