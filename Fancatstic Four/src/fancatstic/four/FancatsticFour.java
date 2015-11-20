@@ -24,7 +24,8 @@ public class FancatsticFour {
         // TODO code application logic here
         System.out.println("Working Directory = " +
         System.getProperty("user.dir"));
-        DataSet data = new DataSet("weather.txt");
+        DataSet data = new DataSet("weather.nominal.arff");
+        
         /*List<String> identify = new ArrayList<>();
 >>>>>>> a592f84be37b5d5b825395b9ad3a379e8d159b96
   
@@ -65,9 +66,9 @@ public class FancatsticFour {
         System.out.println(nb.accuracy(data.getDataset(), hasil));
 >>>>>>> a592f84be37b5d5b825395b9ad3a379e8d159b96*/
         
-        kNNSolver fulltraining = new kNNSolver(data,7);
-        System.out.println("Accuracy kNN full-training : " + fulltraining.countAccuracy()*100 + "%");
->>>>>>> origin/master
+        /*kNNSolver fulltraining = new kNNSolver(data,7);
+        System.out.println("Accuracy kNN full-training : " + fulltraining.countAccuracy()*100 + "%");*/
+/*>>>>>>> origin/master*/
     }
     
 }
