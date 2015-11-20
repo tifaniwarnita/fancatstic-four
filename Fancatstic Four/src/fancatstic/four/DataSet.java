@@ -18,32 +18,35 @@ import java.util.Map;
  * @author Tifani
  */
 public class DataSet {
-    private List<List<String>> dataset = new ArrayList<>(); //TODO: nyimpennya ga dalam bentuk string biar bagus harusnya integer kali ya ga tau deh
+    private List<List<String>> dataset = new ArrayList<>();
     private List<String> attributes = new ArrayList<>();
     private Map<String,List<String>> attributeValues = new HashMap<>();
+    private List<String> classValues = new ArrayList<>();
     private final String DATA_TAG = "@data";
     private final String ATTRIBUTE_TAG = "@attribute";
-        
-    /* private List<List<Info>> attributeInfo;
     
-    public class Info {
-        private int attribute;
-        private String value;
-        
-        public Info() {
-            
-        }
-    }*/
-    
-    public DataSet() {
-        
-    }
+    public DataSet() {}
     
     public DataSet(String filename) {
         arffReader(filename);
-        //printDataSet();
     }
     
+    public List<List<String>> getDataset() {
+        return dataset;
+    }
+    
+    public List<String> getAttributes() {
+        return attributes;
+    }
+    
+    public Map<String,List<String>> getAttributeValues() {
+        return attributeValues;
+    }
+    
+    public List<String> getClassValues() {
+        return classValues;
+    }
+            
     public void readFile(String filename) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -70,21 +73,27 @@ public class DataSet {
             String line = br.readLine();
             while (line != null && line.toLowerCase().indexOf(DATA_TAG) == -1) {
 		if (!line.isEmpty() && line.charAt(0) != '%') {
-                    String[] parts = line.split("\\s", 3); //ngebagi line jadi 3 string
-                    if (parts[0].equalsIgnoreCase(ATTRIBUTE_TAG)) { //ngecek depannnya @attribute
+                    String[] parts = line.split("\\s", 3); //membagi line jadi 3 string
+                    if (parts[0].equalsIgnoreCase(ATTRIBUTE_TAG)) { //cek apakah depannnya @attribute
 			attributes.add(parts[1]); //masukin nama atribut
-                        System.out.println(parts[1]);
                         String[] values = parts[2].replaceAll(" |\\{|\\}|'","").split(",");
 			List<String> atr = new ArrayList<>();
                         for (String s : values) {
                             s = s.trim(); //buang whitespace
                             atr.add(s);
-                            System.out.println(s);
 			}
 			attributeValues.put(parts[1],atr); //masukin value attribute ke map
-                        System.out.println();
                     }
                 }
+                line = br.readLine();
+            }
+            
+            for (int i=0; i < attributeValues.get(attributes.get(attributes.size()-1)).size(); i++)
+                classValues.add(attributeValues.get(attributes.get(attributes.size()-1)).get(i));
+            attributeValues.remove(attributes.get(attributes.size()-1));
+            attributes.remove(attributes.size()-1);
+            
+            while (line.toLowerCase().indexOf(DATA_TAG) == 0){
                 line = br.readLine();
             }
             
@@ -112,7 +121,7 @@ public class DataSet {
         }
     }
     
-    public List<List<String>> getDataset() {
-        return dataset;
+    public String getClass(int i) {
+        return dataset.get(i).get(dataset.get(i).size()-1);
     }
 }

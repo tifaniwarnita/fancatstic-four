@@ -1,6 +1,7 @@
 package fancatstic.four;
 
 
+import fancatstic.four.DataSet;
 import java.util.*;
 
 /*
@@ -39,10 +40,16 @@ public class kNNSolver {
         }
     }
     
+<<<<<<< HEAD
     public void fullTraining(DataSet data){
         for (int i=0; i< fullset.size(); i++) {
             knn.add(new kNN(data,fullset.get(i),k));
             newClasses.add(knn.get(i).solve());
+=======
+        for (int i=0; i<data.getDataset().size(); i++) {
+            knn.add(new kNN(data,data.getDataset().get(i),k));
+           // newClasses.add(knn.get(i).solve());
+>>>>>>> 44703e6ff2d4e85ddf54a381ab8edb232791264d
         }
     }
     
