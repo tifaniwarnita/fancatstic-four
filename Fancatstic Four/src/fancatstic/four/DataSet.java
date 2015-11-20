@@ -93,7 +93,7 @@ public class DataSet {
             attributeValues.remove(attributes.get(attributes.size()-1));
             attributes.remove(attributes.size()-1);
             
-            while (line.toLowerCase().indexOf(DATA_TAG) == 0){
+            while (line.toLowerCase().indexOf(DATA_TAG) == 0 || line.isEmpty()){
                 line = br.readLine();
             }
             
