@@ -22,33 +22,32 @@ public class FancatsticFour {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
-        DataSet data = new DataSet("weather.nominal.arff");
+        System.out.print("Input file: ");
+        String filename = scanner.nextLine();
+        DataSet data = new DataSet(filename);
         System.out.print("Press 1 for kNN and 2 for Naive Bayes: ");
         
-        Scanner scanner = new Scanner(System.in);
+        
         int num = scanner.nextInt();
         System.out.println("");
         
         switch (num) { //kNN
-            case 1: {
+            case 1: {                
                 System.out.println("==================");
                 System.out.println("k-Nearest Neighbor");
-                System.out.println("==================");
-                /* List<String> identify = new ArrayList<>();
-                identify.add("sunny");
-                identify.add("hot");
-                identify.add("high");
-                identify.add("FALSE");
-                kNN knn = new kNN(data,identify,3);
-                knn.printQueue();
-                System.out.println(knn.solve());
-                //knn.printQueue();
-                //System.out.println(knn.solve());
-                */
-                kNNSolver fulltraining = new kNNSolver(data,1,2);
-                System.out.println("Accuracy kNN full-training : " + fulltraining.countAccuracy()*100 + "%");
+                System.out.println("==================");                
+                System.out.print("k = ");
+                int k = scanner.nextInt();
+                System.out.println("Press:");
+                System.out.println("1. Full Training");
+                System.out.println("2. 10-fold Cross Validation");
+                System.out.println("3. 10-fold Cross Validation (random fold)");
+                int choice = scanner.nextInt();
+                kNNSolver knn = new kNNSolver(data,k,choice);
+                System.out.println("Accuracy kNN: " + knn.countAccuracy()*100 + "%");
                 break;
             }
             case 2: { // Naive Bayes
@@ -60,7 +59,26 @@ public class FancatsticFour {
                 Map<String,List<String>> attributeValues = data.getAttributeValues();
 
                 NaiveBayes nb = new NaiveBayes(data.getDataset(),attributes,attributeValues,classValues);
-                nb.fullTraining();
+                System.out.print("Press 1 for full training and 2 for 10-fold cross validation: ");
+                System.out.println("Press:");
+                System.out.println("1. Full Training");
+                System.out.println("2. 10-fold Cross Validation");
+                System.out.println("3. 10-fold Cross Validation (random fold)");
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1: {
+                        nb.fullTraining();
+                        break;
+                    }
+                    case 2: {
+                        nb.crossValidation(10);
+                        break;
+                    }
+                    case 3: {
+                        nb.randCrossValidation(10);
+                        break;
+                    }
+                }
                 break;
             }
         }

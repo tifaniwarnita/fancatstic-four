@@ -40,9 +40,9 @@ public class kNN {
                 } else {
                     dis++;
                 }
-                System.out.print(data.get(i).get(j) + " ");
+                //System.out.print(data.get(i).get(j) + " ");
             }
-            System.out.println("distance: " + dis);
+            //System.out.println("distance: " + dis);
             Neighbor n = new Neighbor(i,dis);
             neighbors.add(n);
             if (neighbors.size() > k)

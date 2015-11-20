@@ -68,12 +68,13 @@ public class kNNSolver {
     
             
     public void crossValidation(int folds) {
+        System.out.println("Cross Validation");
 	int last = 0;
 	int start;
 	List<List<String>> trainingset =  new ArrayList<>();
 	List<List<String>> testingset;
 	for (int i=0;i<folds;i++) {
-            System.out.println("i = "+i);
+            //System.out.println("i = "+i);
             start = last;
             last = start + fullset.size()/folds;
             if (i < fullset.size() % folds) {
@@ -93,13 +94,14 @@ public class kNNSolver {
     }
         
     void randCrossValidation(int folds) {
+        System.out.println("Cross Validation (random fold)");
 	int n;
 	List<List<String>> trainingset =  new ArrayList<>();
 	List<List<String>> testingset = new ArrayList<>();
         java.util.Set<Integer> testNumbers = new java.util.HashSet<>();
         java.util.Random rng = new java.util.Random();
 	for (int i=0;i<folds;i++) {
-            System.out.println("i = "+i);
+            //System.out.println("i = "+i);
             n = fullset.size()/folds;
             if (i < fullset.size() % folds) {
                 n++;
