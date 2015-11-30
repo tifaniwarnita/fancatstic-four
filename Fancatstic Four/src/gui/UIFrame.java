@@ -5,17 +5,22 @@
  */
 package gui;
 
+import fancatstic.four.DataSet;
+import fancatstic.four.NaiveBayesClassifier;
+import fancatstic.four.kNN;
+
 /**
  *
  * @author Venny
  */
 public class UIFrame extends javax.swing.JFrame {
-
+    private DataSet dataset;
     /**
      * Creates new form UIFrame
      */
     public UIFrame() {
         initComponents();
+        dataset = new DataSet("cartest.arff");
     }
 
     /**
@@ -27,59 +32,341 @@ public class UIFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        MainMenu = new javax.swing.JPanel();
+        modelButton = new javax.swing.JButton();
+        classifierButton = new javax.swing.JButton();
+        bg = new javax.swing.JLabel();
+        Classify = new javax.swing.JPanel();
+        kNNButton = new javax.swing.JRadioButton();
+        nbButton = new javax.swing.JRadioButton();
+        kTextField = new javax.swing.JTextField();
+        kLabel = new javax.swing.JLabel();
+        buyingComboBox = new javax.swing.JComboBox();
+        maintComboBox = new javax.swing.JComboBox();
+        doorsComboBox = new javax.swing.JComboBox();
+        personsComboBox = new javax.swing.JComboBox();
+        lugBootComboBox = new javax.swing.JComboBox();
+        safetyComboBox = new javax.swing.JComboBox();
+        alertLabel = new javax.swing.JLabel();
+        evaluateButton = new javax.swing.JButton();
+        resultText = new javax.swing.JLabel();
+        backFromClassify = new javax.swing.JButton();
+        Model = new javax.swing.JPanel();
+        filePath = new javax.swing.JTextField();
+        browseButton = new javax.swing.JButton();
+        algoComboBox = new javax.swing.JComboBox<>();
+        schemaComboBox = new javax.swing.JComboBox<>();
+        createModel = new javax.swing.JButton();
+        backFromModel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(945, 708));
 
-        jPanel1.setLayout(null);
+        MainMenu.setLayout(null);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/model_button.png"))); // NOI18N
-        jPanel1.add(jButton2);
-        jButton2.setBounds(500, 550, 240, 90);
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setFocusPainted(false);
-        jButton2.setOpaque(false);
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/classifier_button.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        modelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/model_button.png"))); // NOI18N
+        modelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                modelButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(210, 550, 230, 90);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setOpaque(false);
+        MainMenu.add(modelButton);
+        modelButton.setBounds(500, 550, 240, 90);
+        modelButton.setBorderPainted(false);
+        modelButton.setContentAreaFilled(false);
+        modelButton.setFocusPainted(false);
+        modelButton.setOpaque(false);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Venny\\Documents\\GitHub\\fancatstic-four\\Fancatstic Four\\src\\gui\\images\\front_page.png")); // NOI18N
-        jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(0, 0, 950, 708);
+        classifierButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/classifier_button.png"))); // NOI18N
+        classifierButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classifierButtonActionPerformed(evt);
+            }
+        });
+        MainMenu.add(classifierButton);
+        classifierButton.setBounds(210, 550, 230, 90);
+        classifierButton.setBorderPainted(false);
+        classifierButton.setContentAreaFilled(false);
+        classifierButton.setFocusPainted(false);
+        classifierButton.setOpaque(false);
+
+        bg.setIcon(new javax.swing.ImageIcon("C:\\Users\\Venny\\Documents\\GitHub\\fancatstic-four\\Fancatstic Four\\src\\gui\\images\\front_page.png")); // NOI18N
+        bg.setText("jLabel2");
+        MainMenu.add(bg);
+        bg.setBounds(0, 0, 950, 708);
+
+        Classify.setLayout(null);
+
+        kNNButton.setText("kNN");
+        kNNButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kNNButtonActionPerformed(evt);
+            }
+        });
+        Classify.add(kNNButton);
+        kNNButton.setBounds(400, 310, 90, 23);
+
+        nbButton.setText("Naive Bayes");
+        Classify.add(nbButton);
+        nbButton.setBounds(510, 310, 120, 23);
+        Classify.add(kTextField);
+        kTextField.setBounds(460, 350, 70, 30);
+
+        kLabel.setText("k:");
+        Classify.add(kLabel);
+        kLabel.setBounds(430, 350, 20, 20);
+
+        buyingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Very High", "High", "Medium", "Low" }));
+        buyingComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buyingComboBoxActionPerformed(evt);
+            }
+        });
+        Classify.add(buyingComboBox);
+        buyingComboBox.setBounds(160, 420, 100, 20);
+
+        maintComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Very High", "High", "Medium", "Low" }));
+        maintComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                maintComboBoxActionPerformed(evt);
+            }
+        });
+        Classify.add(maintComboBox);
+        maintComboBox.setBounds(280, 420, 100, 20);
+
+        doorsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4", ">=5" }));
+        doorsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doorsComboBoxActionPerformed(evt);
+            }
+        });
+        Classify.add(doorsComboBox);
+        doorsComboBox.setBounds(410, 420, 70, 20);
+
+        personsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "4", "More" }));
+        personsComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                personsComboBoxActionPerformed(evt);
+            }
+        });
+        Classify.add(personsComboBox);
+        personsComboBox.setBounds(510, 420, 70, 20);
+
+        lugBootComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Small", "Medium", "Big" }));
+        lugBootComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lugBootComboBoxActionPerformed(evt);
+            }
+        });
+        Classify.add(lugBootComboBox);
+        lugBootComboBox.setBounds(600, 420, 80, 20);
+
+        safetyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Low", "Medium", "High" }));
+        safetyComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                safetyComboBoxActionPerformed(evt);
+            }
+        });
+        Classify.add(safetyComboBox);
+        safetyComboBox.setBounds(700, 420, 80, 20);
+        Classify.add(alertLabel);
+        alertLabel.setBounds(360, 480, 270, 20);
+
+        evaluateButton.setText("Evaluate Class");
+        evaluateButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                evaluateButtonMouseClicked(evt);
+            }
+        });
+        evaluateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                evaluateButtonActionPerformed(evt);
+            }
+        });
+        Classify.add(evaluateButton);
+        evaluateButton.setBounds(430, 530, 103, 23);
+
+        resultText.setText("Result");
+        Classify.add(resultText);
+        resultText.setBounds(450, 600, 80, 20);
+
+        backFromClassify.setText("Back");
+        backFromClassify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backFromClassifyActionPerformed(evt);
+            }
+        });
+        Classify.add(backFromClassify);
+        backFromClassify.setBounds(40, 30, 55, 23);
+
+        Model.setLayout(null);
+        Model.add(filePath);
+        filePath.setBounds(200, 210, 420, 30);
+
+        browseButton.setText("Browse");
+        Model.add(browseButton);
+        browseButton.setBounds(630, 210, 73, 30);
+
+        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "kNN", "Naive Bayes" }));
+        Model.add(algoComboBox);
+        algoComboBox.setBounds(240, 280, 180, 30);
+
+        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
+        Model.add(schemaComboBox);
+        schemaComboBox.setBounds(450, 280, 230, 30);
+
+        createModel.setText("Create Model");
+        createModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createModelActionPerformed(evt);
+            }
+        });
+        Model.add(createModel);
+        createModel.setBounds(370, 380, 160, 40);
+
+        backFromModel.setText("Back");
+        backFromModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backFromModelActionPerformed(evt);
+            }
+        });
+        Model.add(backFromModel);
+        backFromModel.setBounds(20, 20, 55, 23);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
+            .addComponent(MainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(Classify, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+            .addComponent(MainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(Classify, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void classifierButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classifierButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.setContentPane(Classify);
+        this.invalidate();
+        this.validate();
+    }//GEN-LAST:event_classifierButtonActionPerformed
+
+    private void kNNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kNNButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_kNNButtonActionPerformed
+
+    private void lugBootComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lugBootComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lugBootComboBoxActionPerformed
+
+    private void maintComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maintComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_maintComboBoxActionPerformed
+
+    private void personsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personsComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_personsComboBoxActionPerformed
+
+    private void safetyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_safetyComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_safetyComboBoxActionPerformed
+
+    private void evaluateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_evaluateButtonMouseClicked
+        java.util.List<String> data = new java.util.ArrayList<>();
+        alertLabel.setText("");
+        if (nbButton.isSelected()) {
+            data.add((String)buyingComboBox.getSelectedItem());
+            data.add((String)maintComboBox.getSelectedItem());
+            data.add((String)doorsComboBox.getSelectedItem());
+            data.add((String)personsComboBox.getSelectedItem());
+            data.add((String)lugBootComboBox.getSelectedItem());
+            data.add((String)safetyComboBox.getSelectedItem());
+            String result = NaiveBayesClassifier.classify(data);
+            resultText.setText(result);
+        } else if (kNNButton.isSelected()) {
+            try{
+                String buyingPrice = ((String)buyingComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
+                data.add(buyingPrice);
+                String maintenancePrice = ((String)maintComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
+                data.add(maintenancePrice);
+                String doors = ((String)doorsComboBox.getSelectedItem()).replace(">=5", "5more");
+                data.add(doors);
+                String persons = ((String)personsComboBox.getSelectedItem()).toLowerCase();
+                data.add(persons);
+                String luggageBoot = ((String)lugBootComboBox.getSelectedItem()).toLowerCase();
+                data.add(luggageBoot);
+                String safety = ((String)safetyComboBox.getSelectedItem()).toLowerCase();
+                data.add(safety);
+                int k = Integer.valueOf(kTextField.getText());
+                kNN knn = new kNN();
+                String result = knn.classify(dataset.getDataset(), data, k);
+                knn.printQueue();
+                resultText.setText(result);
+            } catch (NumberFormatException e) {
+                alertLabel.setText("Please input number for k!");
+            }
+        }
+    }//GEN-LAST:event_evaluateButtonMouseClicked
+
+    private void evaluateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evaluateButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_evaluateButtonActionPerformed
+
+    private void doorsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doorsComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_doorsComboBoxActionPerformed
+
+    private void buyingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyingComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buyingComboBoxActionPerformed
+
+    private void modelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelButtonActionPerformed
+        // TODO add your handling code here:
+        this.setContentPane(Model);
+        this.invalidate();
+        this.validate();
+    }//GEN-LAST:event_modelButtonActionPerformed
+
+    private void createModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createModelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createModelActionPerformed
+
+    private void backFromClassifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backFromClassifyActionPerformed
+        // TODO add your handling code here:
+        this.setContentPane(MainMenu);
+        this.invalidate();
+        this.validate();
+    }//GEN-LAST:event_backFromClassifyActionPerformed
+
+    private void backFromModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backFromModelActionPerformed
+        // TODO add your handling code here:
+        this.setContentPane(MainMenu);
+        this.invalidate();
+        this.validate();
+    }//GEN-LAST:event_backFromModelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,9 +404,31 @@ public class UIFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel Classify;
+    private javax.swing.JPanel MainMenu;
+    private javax.swing.JPanel Model;
+    private javax.swing.JLabel alertLabel;
+    private javax.swing.JComboBox<String> algoComboBox;
+    private javax.swing.JButton backFromClassify;
+    private javax.swing.JButton backFromModel;
+    private javax.swing.JLabel bg;
+    private javax.swing.JButton browseButton;
+    private javax.swing.JComboBox buyingComboBox;
+    private javax.swing.JButton classifierButton;
+    private javax.swing.JButton createModel;
+    private javax.swing.JComboBox doorsComboBox;
+    private javax.swing.JButton evaluateButton;
+    private javax.swing.JTextField filePath;
+    private javax.swing.JLabel kLabel;
+    private javax.swing.JRadioButton kNNButton;
+    private javax.swing.JTextField kTextField;
+    private javax.swing.JComboBox lugBootComboBox;
+    private javax.swing.JComboBox maintComboBox;
+    private javax.swing.JButton modelButton;
+    private javax.swing.JRadioButton nbButton;
+    private javax.swing.JComboBox personsComboBox;
+    private javax.swing.JLabel resultText;
+    private javax.swing.JComboBox safetyComboBox;
+    private javax.swing.JComboBox<String> schemaComboBox;
     // End of variables declaration//GEN-END:variables
 }

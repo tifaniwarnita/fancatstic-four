@@ -97,6 +97,44 @@ public class kNN {
         return classes.get(0).classData;
     }
     
+    public String classify(List<List<String>> _data, List<String> identify, int _k) {
+        k = _k;
+        data = _data;
+        neighbors = new PriorityQueue(k, new Comparator<Neighbor>() {
+            @Override
+            public int compare(Neighbor neighbor1, Neighbor neighbor2) {
+                return (neighbor1.distance < neighbor2.distance ? 1 : -1);
+            }
+        });
+        
+        System.out.println("This is the identifier");
+        for(int i=0; i<identify.size(); ++i) {
+            System.out.print(identify.get(i));
+        }
+        System.out.println("");
+        
+        // Menghitung jarak dari setiap atribut
+        for (int i=0; i<data.size(); i++) {
+            int dis = 0;
+            for (int j=0; j<data.get(i).size()-1; j++) {
+                if (data.get(i).get(j).equals(identify.get(j))) {
+                    
+                } else {
+                    dis++;
+                }
+                System.out.print(data.get(i).get(j) + " ");
+            }
+            System.out.println("distance: " + dis);
+            Neighbor n = new Neighbor(i,dis);
+            neighbors.add(n);
+            if (neighbors.size() > k)
+                neighbors.poll();
+        }
+        
+        String result = solve();
+        return result;
+    }
+    
     //Nested class DataClass
     public class DataClass {
         public String classData;

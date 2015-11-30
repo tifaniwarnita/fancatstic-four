@@ -115,7 +115,7 @@
                   <Component id="naiveBayesButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="kNNButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="kTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="algorithmText1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -129,7 +129,7 @@
                   <Component id="lugBootText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="safetyText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="buyingComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="maintComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -138,9 +138,9 @@
                   <Component id="lugBootComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="safetyComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="alertLabel" min="-2" pref="18" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="evaluateButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Component id="resultText" min="-2" max="-2" attributes="0"/>
