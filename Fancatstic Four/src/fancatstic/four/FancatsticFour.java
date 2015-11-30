@@ -21,7 +21,7 @@ public class FancatsticFour {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public FancatsticFour() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
