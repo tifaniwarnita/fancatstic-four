@@ -10,12 +10,13 @@ package AIClassifier;
  * @author ASUS X202E
  */
 public class UIFrame extends javax.swing.JFrame {
-
+    DataSet dataset;
     /**
      * Creates new form UIFrame
      */
     public UIFrame() {
         initComponents();
+        dataset = new DataSet("cartest.arff");
     }
 
     /**
@@ -46,6 +47,9 @@ public class UIFrame extends javax.swing.JFrame {
         resultText = new javax.swing.JLabel();
         titleText = new javax.swing.JLabel();
         evaluateButton = new javax.swing.JButton();
+        kTextField = new javax.swing.JTextField();
+        algorithmText1 = new javax.swing.JLabel();
+        alertLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,6 +141,8 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
 
+        algorithmText1.setText("k:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,14 +150,6 @@ public class UIFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(228, 228, 228)
-                        .addComponent(algorithmText)
-                        .addGap(18, 18, 18)
-                        .addComponent(naiveBayesButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(kNNButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(buyingText)
@@ -175,7 +173,20 @@ public class UIFrame extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(safetyText)
-                            .addComponent(safetyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(safetyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(228, 228, 228)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(algorithmText)
+                            .addComponent(algorithmText1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(naiveBayesButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(kNNButton))
+                            .addComponent(kTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(217, 217, 217)))
                 .addGap(36, 36, 36))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +198,10 @@ public class UIFrame extends javax.swing.JFrame {
                         .addComponent(evaluateButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(346, 346, 346)
-                        .addComponent(resultText)))
+                        .addComponent(resultText))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(232, 232, 232)
+                        .addComponent(alertLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -200,7 +214,11 @@ public class UIFrame extends javax.swing.JFrame {
                     .addComponent(algorithmText)
                     .addComponent(naiveBayesButton)
                     .addComponent(kNNButton))
-                .addGap(50, 50, 50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(kTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(algorithmText1))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buyingText)
                     .addComponent(maintText)
@@ -216,7 +234,9 @@ public class UIFrame extends javax.swing.JFrame {
                     .addComponent(personsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lugBootComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(safetyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(alertLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(evaluateButton)
                 .addGap(37, 37, 37)
                 .addComponent(resultText)
@@ -264,17 +284,38 @@ public class UIFrame extends javax.swing.JFrame {
 
     private void evaluateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_evaluateButtonMouseClicked
         java.util.List<String> data = new java.util.ArrayList<>();
-        data.add((String)buyingComboBox.getSelectedItem());
-        data.add((String)maintComboBox.getSelectedItem());
-        data.add((String)doorsComboBox.getSelectedItem());
-        data.add((String)personsComboBox.getSelectedItem());
-        data.add((String)lugBootComboBox.getSelectedItem());
-        data.add((String)safetyComboBox.getSelectedItem());
+        alertLabel.setText("");
         if (naiveBayesButton.isSelected()) {
+            data.add((String)buyingComboBox.getSelectedItem());
+            data.add((String)maintComboBox.getSelectedItem());
+            data.add((String)doorsComboBox.getSelectedItem());
+            data.add((String)personsComboBox.getSelectedItem());
+            data.add((String)lugBootComboBox.getSelectedItem());
+            data.add((String)safetyComboBox.getSelectedItem());
             String result = naiveBayesClassifier.classify(data);
             resultText.setText(result);
-        } else {
-            //isi yang kNN di sini
+        } else if (kNNButton.isSelected()) {
+            try{
+                String buyingPrice = ((String)buyingComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
+                data.add(buyingPrice);
+                String maintenancePrice = ((String)maintComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
+                data.add(maintenancePrice);
+                String doors = ((String)doorsComboBox.getSelectedItem()).replace(">=5", "5more");
+                data.add(doors);
+                String persons = ((String)personsComboBox.getSelectedItem()).toLowerCase();
+                data.add(persons);
+                String luggageBoot = ((String)lugBootComboBox.getSelectedItem()).toLowerCase();
+                data.add(luggageBoot);
+                String safety = ((String)safetyComboBox.getSelectedItem()).toLowerCase();
+                data.add(safety);
+                int k = Integer.valueOf(kTextField.getText());
+                kNNClassifier knn = new kNNClassifier();
+                String result = knn.classify(dataset.getDataset(), data, k);
+                knn.printQueue();
+                resultText.setText(result);
+            } catch (NumberFormatException e) {
+                alertLabel.setText("Please input number for k!");
+            }
         }
     }//GEN-LAST:event_evaluateButtonMouseClicked
 
@@ -314,14 +355,17 @@ public class UIFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel alertLabel;
     private javax.swing.ButtonGroup algorithmChooser;
     private javax.swing.JLabel algorithmText;
+    private javax.swing.JLabel algorithmText1;
     private javax.swing.JComboBox buyingComboBox;
     private javax.swing.JLabel buyingText;
     private javax.swing.JComboBox doorsComboBox;
     private javax.swing.JLabel doorsText;
     private javax.swing.JButton evaluateButton;
     private javax.swing.JRadioButton kNNButton;
+    private javax.swing.JTextField kTextField;
     private javax.swing.JComboBox lugBootComboBox;
     private javax.swing.JLabel lugBootText;
     private javax.swing.JComboBox maintComboBox;

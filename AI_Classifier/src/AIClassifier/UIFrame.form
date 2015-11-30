@@ -30,15 +30,6 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="0" pref="44" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="228" max="-2" attributes="0"/>
-                      <Component id="algorithmText" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="naiveBayesButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="kNNButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="217" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="buyingText" min="-2" max="-2" attributes="0"/>
@@ -70,6 +61,23 @@
                           <Component id="safetyComboBox" min="-2" pref="74" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="228" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="algorithmText" min="-2" max="-2" attributes="0"/>
+                          <Component id="algorithmText1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="naiveBayesButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="kNNButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="kTextField" min="-2" pref="60" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
           </Group>
@@ -87,6 +95,10 @@
                       <EmptySpace min="-2" pref="346" max="-2" attributes="0"/>
                       <Component id="resultText" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="232" max="-2" attributes="0"/>
+                      <Component id="alertLabel" min="-2" pref="267" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -103,7 +115,12 @@
                   <Component id="naiveBayesButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="kNNButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="kTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="algorithmText1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="buyingText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="maintText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -121,7 +138,9 @@
                   <Component id="lugBootComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="safetyComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="57" max="32767" attributes="0"/>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <Component id="alertLabel" min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="evaluateButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Component id="resultText" min="-2" max="-2" attributes="0"/>
@@ -293,6 +312,15 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="evaluateButtonMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="evaluateButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="kTextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="algorithmText1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="k:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="alertLabel">
     </Component>
   </SubComponents>
 </Form>
