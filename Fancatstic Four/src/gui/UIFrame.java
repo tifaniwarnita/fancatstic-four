@@ -93,8 +93,8 @@ public class UIFrame extends javax.swing.JFrame {
         Model = new javax.swing.JPanel();
         filePath = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
-        algoComboBox = new javax.swing.JComboBox<String>();
-        schemaComboBox = new javax.swing.JComboBox<String>();
+        algoComboBox = new javax.swing.JComboBox<>();
+        schemaComboBox = new javax.swing.JComboBox<>();
         createModel = new javax.swing.JButton();
         backFromModel = new javax.swing.JButton();
 
@@ -131,6 +131,8 @@ public class UIFrame extends javax.swing.JFrame {
 
         Classify.setLayout(null);
 
+        kNNButton.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 24)); // NOI18N
+        kNNButton.setForeground(new java.awt.Color(255, 255, 255));
         kNNButton.setText("kNN");
         kNNButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,17 +140,21 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(kNNButton);
-        kNNButton.setBounds(400, 310, 90, 23);
+        kNNButton.setBounds(370, 360, 90, 31);
 
+        nbButton.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 24)); // NOI18N
+        nbButton.setForeground(new java.awt.Color(255, 255, 255));
         nbButton.setText("Naive Bayes");
         Classify.add(nbButton);
-        nbButton.setBounds(510, 310, 120, 23);
+        nbButton.setBounds(475, 355, 180, 41);
         Classify.add(kTextField);
-        kTextField.setBounds(460, 350, 70, 30);
+        kTextField.setBounds(460, 400, 70, 30);
 
+        kLabel.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 24)); // NOI18N
+        kLabel.setForeground(new java.awt.Color(255, 255, 255));
         kLabel.setText("k:");
         Classify.add(kLabel);
-        kLabel.setBounds(430, 350, 20, 20);
+        kLabel.setBounds(430, 405, 20, 20);
 
         buyingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Very High", "High", "Medium", "Low" }));
         buyingComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +163,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(buyingComboBox);
-        buyingComboBox.setBounds(160, 420, 100, 20);
+        buyingComboBox.setBounds(160, 450, 100, 30);
 
         maintComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Very High", "High", "Medium", "Low" }));
         maintComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +172,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(maintComboBox);
-        maintComboBox.setBounds(280, 420, 100, 20);
+        maintComboBox.setBounds(280, 450, 100, 30);
 
         doorsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4", ">=5" }));
         doorsComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +181,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(doorsComboBox);
-        doorsComboBox.setBounds(410, 420, 70, 20);
+        doorsComboBox.setBounds(405, 450, 70, 30);
 
         personsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "4", "More" }));
         personsComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -184,7 +190,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(personsComboBox);
-        personsComboBox.setBounds(510, 420, 70, 20);
+        personsComboBox.setBounds(500, 450, 70, 30);
 
         lugBootComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Small", "Medium", "Big" }));
         lugBootComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +199,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(lugBootComboBox);
-        lugBootComboBox.setBounds(600, 420, 80, 20);
+        lugBootComboBox.setBounds(595, 450, 80, 30);
 
         safetyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Low", "Medium", "High" }));
         safetyComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +208,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(safetyComboBox);
-        safetyComboBox.setBounds(700, 420, 80, 20);
+        safetyComboBox.setBounds(700, 450, 80, 30);
         Classify.add(alertLabel);
         alertLabel.setBounds(360, 460, 270, 20);
 
@@ -220,14 +226,14 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(evaluateButton);
-        evaluateButton.setBounds(356, 500, 119, 43);
+        evaluateButton.setBounds(430, 510, 119, 43);
 
         resultText.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 36)); // NOI18N
         resultText.setForeground(new java.awt.Color(255, 255, 255));
         resultText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         resultText.setText("Result");
         Classify.add(resultText);
-        resultText.setBounds(370, 570, 220, 50);
+        resultText.setBounds(380, 570, 220, 50);
 
         backFromClassify.setBorderPainted(false);
         backFromClassify.setContentAreaFilled(false);
@@ -249,11 +255,11 @@ public class UIFrame extends javax.swing.JFrame {
         Model.add(browseButton);
         browseButton.setBounds(630, 210, 73, 30);
 
-        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "kNN", "Naive Bayes" }));
+        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "kNN", "Naive Bayes" }));
         Model.add(algoComboBox);
         algoComboBox.setBounds(240, 280, 180, 30);
 
-        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
+        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
         Model.add(schemaComboBox);
         schemaComboBox.setBounds(450, 280, 230, 30);
 
