@@ -59,6 +59,11 @@ public class UIFrame extends javax.swing.JFrame {
         
         bgClassifier.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\classifier_page.png")
                 .getImage().getScaledInstance(950, 710, Image.SCALE_SMOOTH)));
+        backFromClassify.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\back_button.png")
+                .getImage().getScaledInstance(55, 52, Image.SCALE_SMOOTH)));
+        evaluateButton.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\evaluate_button.png")
+                .getImage().getScaledInstance(119, 43, Image.SCALE_SMOOTH)));
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -199,9 +204,11 @@ public class UIFrame extends javax.swing.JFrame {
         Classify.add(safetyComboBox);
         safetyComboBox.setBounds(700, 420, 80, 20);
         Classify.add(alertLabel);
-        alertLabel.setBounds(360, 480, 270, 20);
+        alertLabel.setBounds(360, 460, 270, 20);
 
-        evaluateButton.setText("Evaluate Class");
+        evaluateButton.setBorderPainted(false);
+        evaluateButton.setContentAreaFilled(false);
+        evaluateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         evaluateButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 evaluateButtonMouseClicked(evt);
@@ -213,20 +220,24 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(evaluateButton);
-        evaluateButton.setBounds(430, 530, 103, 23);
+        evaluateButton.setBounds(356, 500, 119, 43);
 
+        resultText.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 36)); // NOI18N
+        resultText.setForeground(new java.awt.Color(255, 255, 255));
+        resultText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         resultText.setText("Result");
         Classify.add(resultText);
-        resultText.setBounds(450, 600, 80, 20);
+        resultText.setBounds(370, 570, 220, 50);
 
-        backFromClassify.setText("Back");
+        backFromClassify.setBorderPainted(false);
+        backFromClassify.setContentAreaFilled(false);
         backFromClassify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backFromClassifyActionPerformed(evt);
             }
         });
         Classify.add(backFromClassify);
-        backFromClassify.setBounds(40, 30, 55, 23);
+        backFromClassify.setBounds(20, 20, 55, 55);
         Classify.add(bgClassifier);
         bgClassifier.setBounds(0, 0, 950, 710);
 
