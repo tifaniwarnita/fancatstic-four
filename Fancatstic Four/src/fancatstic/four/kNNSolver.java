@@ -19,7 +19,7 @@ public class kNNSolver {
     private List<String> newClasses = new ArrayList<>();
     private List<kNN> knn = new ArrayList<>();
     private List<List<String>> fullset;
-    private int attrSize;
+    private List<String> classValues = new ArrayList<>();
     private int k;
     
     public kNNSolver(){
@@ -29,7 +29,7 @@ public class kNNSolver {
     public kNNSolver(DataSet data, int _k, int choice){
         k = _k;
         fullset = data.getDataset();
-        attrSize = data.getDataset().get(0).size()-1;
+        classValues = data.getClassValues();
         for (int i=0; i<data.getDataset().size(); i++) {
             oldClasses.add(data.getClass(i));
         }
@@ -66,7 +66,7 @@ public class kNNSolver {
         return accuracy;
     }
     
-            
+    
     public void crossValidation(int folds) {
         System.out.println("Cross Validation");
 	int last = 0;
@@ -130,4 +130,28 @@ public class kNNSolver {
             }
         }
     }
+    
+    public int[][] confusionMatrix(){
+        int nclass = classValues.size();
+        int[][] matrix = new int[nclass][nclass];
+        
+        for (int j=0; j<nclass; j++){
+            for (int k=0; k<nclass; k++){
+                matrix[j][k]=0;
+            }
+        }
+        
+        for (int i=0; i < newClasses.size(); i++){
+            for (int j=0; j<nclass; j++){ //actual values
+                for (int k=0; k<nclass; k++){ //prediction
+                    if (oldClasses.equals(classValues.get(j)) && newClasses.get(i).equals(classValues.get(k))){
+                        matrix[j][k]++;
+                    }
+                }
+            }
+        }
+        
+        return matrix;
+    }
+    
 }
