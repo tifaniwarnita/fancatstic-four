@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NaiveBayes {
         List<String> attributes;
@@ -43,10 +45,12 @@ public class NaiveBayes {
                 for (String classValue : classValues) {
                     model.get("Class").get("Total").put(classValue, 0);
                 }
+                model.get("Class").get("Total").put("total",0);
                 
 		for (i=0;i<dataset.size();i++) {
 			String classValue = dataset.get(i).get(attributes.size());
                         model.get("Class").get("Total").put(classValue, model.get("Class").get("Total").get(classValue)+1);
+                        model.get("Class").get("Total").put("total", model.get("Class").get("Total").get("total")+1);
 			for (j=0;j<attributes.size();j++) {
                             String atrName = attributes.get(j);
                             String atrValue = dataset.get(i).get(j);
@@ -60,11 +64,8 @@ public class NaiveBayes {
         public String classify(List<String> newdata, Map<String,Map<String,Map<String,Integer>>> model) {
             double maxp = 0;
             double p;
-            int totalCount=0;
+            int totalCount=model.get("Class").get("Total").get("total");
             
-            for (int classCount : model.get("Class").get("Total").values()) {
-                totalCount+= classCount;
-            }
             String classification = "";
             for (String classValue : classValues) { 
                 int classCount = model.get("Class").get("Total").get(classValue);
@@ -85,16 +86,12 @@ public class NaiveBayes {
         }
         
         public void printModel(Map<String,Map<String,Map<String,Integer>>> model) {
-            int total=0;
-            for (String classval : classValues){
-                total += model.get("Class").get("Total").get(classval);
-            }
             for (String atrName : attributes) {
                     System.out.println(atrName);
                     for (String atrValue : attributeValues.get(atrName)) {
                         System.out.print(atrValue);
                         for (String classValue : classValues) {
-                            System.out.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue)+"/"+total);
+                            System.out.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue));
                         }
                         System.out.println();
                     }
@@ -103,24 +100,21 @@ public class NaiveBayes {
             System.out.println("Class");
             for (String classval : classValues){
                 System.out.print(classval+" - ");
-                System.out.println(model.get("Class").get("Total").get(classval)+"/"+total);
+                System.out.println(model.get("Class").get("Total").get(classval));
             }
+            System.out.println("total - "+model.get("Class").get("Total").get("total"));
             System.out.println();
         }
         
         public void exportModel(String filename, Map<String,Map<String,Map<String,Integer>>> model) throws FileNotFoundException, UnsupportedEncodingException{
             try (PrintWriter writer = new PrintWriter(filename, "UTF-8")) {
-                int total=0;
-                for (String classval : classValues){
-                    total += model.get("Class").get("Total").get(classval);
-                }
                 
                 for (String atrName : attributes) {
                     writer.println(atrName);
                     for (String atrValue : attributeValues.get(atrName)) {
                         writer.print(atrValue);
                         for (String classValue : classValues) {
-                            writer.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue)+"/"+total);
+                            writer.print(" - "+classValue+": "+model.get(atrName).get(atrValue).get(classValue));
                         }
                         writer.println();
                     }
@@ -129,8 +123,9 @@ public class NaiveBayes {
                 writer.println("Class");
                 for (String classval : classValues){
                     writer.print(classval+" - ");
-                    writer.println(model.get("Class").get("Total").get(classval)+"/"+total);
+                    writer.println(model.get("Class").get("Total").get(classval));
                 }
+                writer.println("total - "+model.get("Class").get("Total").get("total"));
             }
         }
         
@@ -202,6 +197,13 @@ public class NaiveBayes {
                     System.out.print(matrix[j][k]+" ");
                 }
                 System.out.println();
+            }
+            try {
+                exportModel("model.txt",model);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
