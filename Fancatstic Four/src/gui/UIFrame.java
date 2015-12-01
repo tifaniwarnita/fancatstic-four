@@ -89,6 +89,12 @@ public class UIFrame extends javax.swing.JFrame {
         evaluateButton = new javax.swing.JButton();
         resultText = new javax.swing.JLabel();
         backFromClassify = new javax.swing.JButton();
+        buyLabel = new javax.swing.JLabel();
+        maintLabel = new javax.swing.JLabel();
+        doorLabel = new javax.swing.JLabel();
+        personLabel = new javax.swing.JLabel();
+        lugLabel = new javax.swing.JLabel();
+        safetyLabel = new javax.swing.JLabel();
         bgClassifier = new javax.swing.JLabel();
         Model = new javax.swing.JPanel();
         filePath = new javax.swing.JTextField();
@@ -145,6 +151,11 @@ public class UIFrame extends javax.swing.JFrame {
         nbButton.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 24)); // NOI18N
         nbButton.setForeground(new java.awt.Color(255, 255, 255));
         nbButton.setText("Naive Bayes");
+        nbButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nbButtonActionPerformed(evt);
+            }
+        });
         Classify.add(nbButton);
         nbButton.setBounds(475, 355, 180, 41);
         Classify.add(kTextField);
@@ -163,7 +174,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(buyingComboBox);
-        buyingComboBox.setBounds(160, 450, 100, 30);
+        buyingComboBox.setBounds(160, 470, 100, 30);
 
         maintComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Very High", "High", "Medium", "Low" }));
         maintComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -172,7 +183,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(maintComboBox);
-        maintComboBox.setBounds(280, 450, 100, 30);
+        maintComboBox.setBounds(280, 470, 100, 30);
 
         doorsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4", ">=5" }));
         doorsComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -181,7 +192,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(doorsComboBox);
-        doorsComboBox.setBounds(405, 450, 70, 30);
+        doorsComboBox.setBounds(410, 470, 70, 30);
 
         personsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "4", "More" }));
         personsComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +201,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(personsComboBox);
-        personsComboBox.setBounds(500, 450, 70, 30);
+        personsComboBox.setBounds(500, 470, 70, 30);
 
         lugBootComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Small", "Medium", "Big" }));
         lugBootComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -199,7 +210,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(lugBootComboBox);
-        lugBootComboBox.setBounds(595, 450, 80, 30);
+        lugBootComboBox.setBounds(600, 470, 80, 30);
 
         safetyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Low", "Medium", "High" }));
         safetyComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -208,9 +219,12 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(safetyComboBox);
-        safetyComboBox.setBounds(700, 450, 80, 30);
+        safetyComboBox.setBounds(700, 470, 80, 30);
+
+        alertLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        alertLabel.setForeground(new java.awt.Color(255, 255, 255));
         Classify.add(alertLabel);
-        alertLabel.setBounds(360, 460, 270, 20);
+        alertLabel.setBounds(540, 405, 270, 20);
 
         evaluateButton.setBorderPainted(false);
         evaluateButton.setContentAreaFilled(false);
@@ -226,14 +240,14 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Classify.add(evaluateButton);
-        evaluateButton.setBounds(430, 510, 119, 43);
+        evaluateButton.setBounds(430, 530, 119, 43);
 
         resultText.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 36)); // NOI18N
         resultText.setForeground(new java.awt.Color(255, 255, 255));
         resultText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         resultText.setText("Result");
         Classify.add(resultText);
-        resultText.setBounds(380, 570, 220, 50);
+        resultText.setBounds(380, 590, 220, 50);
 
         backFromClassify.setBorderPainted(false);
         backFromClassify.setContentAreaFilled(false);
@@ -244,6 +258,42 @@ public class UIFrame extends javax.swing.JFrame {
         });
         Classify.add(backFromClassify);
         backFromClassify.setBounds(20, 20, 55, 55);
+
+        buyLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        buyLabel.setForeground(new java.awt.Color(255, 255, 255));
+        buyLabel.setText("Buying Price");
+        Classify.add(buyLabel);
+        buyLabel.setBounds(165, 450, 90, 15);
+
+        maintLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        maintLabel.setForeground(new java.awt.Color(255, 255, 255));
+        maintLabel.setText("Maintanance Cost");
+        Classify.add(maintLabel);
+        maintLabel.setBounds(275, 450, 120, 15);
+
+        doorLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        doorLabel.setForeground(new java.awt.Color(255, 255, 255));
+        doorLabel.setText("Doors");
+        Classify.add(doorLabel);
+        doorLabel.setBounds(415, 450, 50, 15);
+
+        personLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        personLabel.setForeground(new java.awt.Color(255, 255, 255));
+        personLabel.setText("Persons");
+        Classify.add(personLabel);
+        personLabel.setBounds(505, 450, 60, 15);
+
+        lugLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lugLabel.setForeground(new java.awt.Color(255, 255, 255));
+        lugLabel.setText("Luggage");
+        Classify.add(lugLabel);
+        lugLabel.setBounds(605, 450, 60, 15);
+
+        safetyLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        safetyLabel.setForeground(new java.awt.Color(255, 255, 255));
+        safetyLabel.setText("Safety");
+        Classify.add(safetyLabel);
+        safetyLabel.setBounds(705, 450, 50, 15);
         Classify.add(bgClassifier);
         bgClassifier.setBounds(0, 0, 950, 710);
 
@@ -324,6 +374,9 @@ public class UIFrame extends javax.swing.JFrame {
 
     private void kNNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kNNButtonActionPerformed
         // TODO add your handling code here:
+        if (nbButton.isSelected()){
+            nbButton.setSelected(false);
+        }
     }//GEN-LAST:event_kNNButtonActionPerformed
 
     private void lugBootComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lugBootComboBoxActionPerformed
@@ -416,6 +469,13 @@ public class UIFrame extends javax.swing.JFrame {
         this.validate();
     }//GEN-LAST:event_backFromModelActionPerformed
 
+    private void nbButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nbButtonActionPerformed
+        // TODO add your handling code here:
+        if (kNNButton.isSelected()){
+            kNNButton.setSelected(false);
+        }
+    }//GEN-LAST:event_nbButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -462,9 +522,11 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JLabel bg;
     private javax.swing.JLabel bgClassifier;
     private javax.swing.JButton browseButton;
+    private javax.swing.JLabel buyLabel;
     private javax.swing.JComboBox buyingComboBox;
     private javax.swing.JButton classifierButton;
     private javax.swing.JButton createModel;
+    private javax.swing.JLabel doorLabel;
     private javax.swing.JComboBox doorsComboBox;
     private javax.swing.JButton evaluateButton;
     private javax.swing.JTextField filePath;
@@ -472,12 +534,16 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton kNNButton;
     private javax.swing.JTextField kTextField;
     private javax.swing.JComboBox lugBootComboBox;
+    private javax.swing.JLabel lugLabel;
     private javax.swing.JComboBox maintComboBox;
+    private javax.swing.JLabel maintLabel;
     private javax.swing.JButton modelButton;
     private javax.swing.JRadioButton nbButton;
+    private javax.swing.JLabel personLabel;
     private javax.swing.JComboBox personsComboBox;
     private javax.swing.JLabel resultText;
     private javax.swing.JComboBox safetyComboBox;
+    private javax.swing.JLabel safetyLabel;
     private javax.swing.JComboBox<String> schemaComboBox;
     // End of variables declaration//GEN-END:variables
 }
