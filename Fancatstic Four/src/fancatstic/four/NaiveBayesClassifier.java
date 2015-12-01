@@ -53,7 +53,7 @@ public class NaiveBayesClassifier {
             while (line!=null) {
                 String[] classCount = line.split(" - ");
                 String className = classCount[0];
-                classValues.add(className);
+                if (!className.equals("total")) classValues.add(className);
                 int count = Integer.parseInt(classCount[1]);
                 model.get("Class").get("Total").put(className, count);
                 line = br.readLine();
@@ -62,6 +62,7 @@ public class NaiveBayesClassifier {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }
     public static String classify(List<String> newdata) {
             double maxp = 0;

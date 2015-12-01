@@ -14,6 +14,9 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 
 /**
  *
@@ -59,10 +62,27 @@ public class UIFrame extends javax.swing.JFrame {
         
         bgClassifier.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\classifier_page.png")
                 .getImage().getScaledInstance(950, 710, Image.SCALE_SMOOTH)));
+        bgModel.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\model_page.png")
+                .getImage().getScaledInstance(950, 710, Image.SCALE_SMOOTH)));
         backFromClassify.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\back_button.png")
+                .getImage().getScaledInstance(55, 52, Image.SCALE_SMOOTH)));
+        backFromModel.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\back_button_model.png")
                 .getImage().getScaledInstance(55, 52, Image.SCALE_SMOOTH)));
         evaluateButton.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\evaluate_button.png")
                 .getImage().getScaledInstance(119, 43, Image.SCALE_SMOOTH)));
+        
+        browseButton.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\browse_button.png")
+                .getImage().getScaledInstance(141, 50, Image.SCALE_SMOOTH)));
+        
+        createModel.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\create_model_button.png")
+                .getImage().getScaledInstance(208, 56, Image.SCALE_SMOOTH)));
+        
+        
+        NaiveBayesClassifier.buildModelFromFile("carmodel.txt");
+        resultstring.put("unacc","Unacceptable");
+        resultstring.put("acc","Acceptable");
+        resultstring.put("good","Good");
+        resultstring.put("vgood","Very Good");
         
     }
     
@@ -99,10 +119,11 @@ public class UIFrame extends javax.swing.JFrame {
         Model = new javax.swing.JPanel();
         filePath = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
-        algoComboBox = new javax.swing.JComboBox<>();
-        schemaComboBox = new javax.swing.JComboBox<>();
+        algoComboBox = new javax.swing.JComboBox<String>();
+        schemaComboBox = new javax.swing.JComboBox<String>();
         createModel = new javax.swing.JButton();
         backFromModel = new javax.swing.JButton();
+        bgModel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(945, 708));
@@ -267,7 +288,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         maintLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         maintLabel.setForeground(new java.awt.Color(255, 255, 255));
-        maintLabel.setText("Maintanance Cost");
+        maintLabel.setText("Maintenance Cost");
         Classify.add(maintLabel);
         maintLabel.setBounds(275, 450, 120, 15);
 
@@ -297,39 +318,71 @@ public class UIFrame extends javax.swing.JFrame {
         Classify.add(bgClassifier);
         bgClassifier.setBounds(0, 0, 950, 710);
 
+        Model.setPreferredSize(new java.awt.Dimension(950, 710));
         Model.setLayout(null);
+
+        filePath.setEditable(false);
+        filePath.setBackground(new java.awt.Color(224, 255, 228));
+        filePath.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        filePath.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        filePath.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        filePath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filePathActionPerformed(evt);
+            }
+        });
         Model.add(filePath);
-        filePath.setBounds(200, 210, 420, 30);
+        filePath.setBounds(80, 410, 620, 50);
 
-        browseButton.setText("Browse");
+        browseButton.setBorderPainted(false);
+        browseButton.setContentAreaFilled(false);
+        browseButton.setFocusPainted(false);
+        browseButton.setOpaque(false);
+        browseButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                browseButtonMouseClicked(evt);
+            }
+        });
+        browseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseButtonActionPerformed(evt);
+            }
+        });
         Model.add(browseButton);
-        browseButton.setBounds(630, 210, 73, 30);
+        browseButton.setBounds(720, 400, 150, 60);
 
-        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "kNN", "Naive Bayes" }));
+        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "kNN", "Naive Bayes" }));
         Model.add(algoComboBox);
-        algoComboBox.setBounds(240, 280, 180, 30);
+        algoComboBox.setBounds(290, 480, 180, 30);
 
-        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
+        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
         Model.add(schemaComboBox);
-        schemaComboBox.setBounds(450, 280, 230, 30);
+        schemaComboBox.setBounds(500, 480, 230, 30);
 
-        createModel.setText("Create Model");
+        createModel.setBorderPainted(false);
+        createModel.setContentAreaFilled(false);
+        createModel.setFocusCycleRoot(true);
+        createModel.setFocusPainted(false);
         createModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createModelActionPerformed(evt);
             }
         });
         Model.add(createModel);
-        createModel.setBounds(370, 380, 160, 40);
+        createModel.setBounds(380, 540, 220, 70);
 
-        backFromModel.setText("Back");
+        backFromModel.setBorderPainted(false);
+        backFromModel.setContentAreaFilled(false);
+        backFromModel.setFocusPainted(false);
         backFromModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backFromModelActionPerformed(evt);
             }
         });
         Model.add(backFromModel);
-        backFromModel.setBounds(20, 20, 55, 23);
+        backFromModel.setBounds(20, 20, 55, 55);
+        Model.add(bgModel);
+        bgModel.setBounds(0, 0, 950, 710);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -398,32 +451,26 @@ public class UIFrame extends javax.swing.JFrame {
     private void evaluateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_evaluateButtonMouseClicked
         java.util.List<String> data = new java.util.ArrayList<>();
         alertLabel.setText("");
+        String buyingPrice = ((String)buyingComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
+        data.add(buyingPrice);
+        String maintenancePrice = ((String)maintComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
+        data.add(maintenancePrice);
+        String doors = ((String)doorsComboBox.getSelectedItem()).replace(">=5", "5more");
+        data.add(doors);
+        String persons = ((String)personsComboBox.getSelectedItem()).toLowerCase();
+        data.add(persons);
+        String luggageBoot = ((String)lugBootComboBox.getSelectedItem()).toLowerCase();
+        data.add(luggageBoot);
+        String safety = ((String)safetyComboBox.getSelectedItem()).toLowerCase();
+        data.add(safety);
         if (nbButton.isSelected()) {
-            data.add((String)buyingComboBox.getSelectedItem());
-            data.add((String)maintComboBox.getSelectedItem());
-            data.add((String)doorsComboBox.getSelectedItem());
-            data.add((String)personsComboBox.getSelectedItem());
-            data.add((String)lugBootComboBox.getSelectedItem());
-            data.add((String)safetyComboBox.getSelectedItem());
-            String result = NaiveBayesClassifier.classify(data);
+            String result = resultstring.get(NaiveBayesClassifier.classify(data));
             resultText.setText(result);
         } else if (kNNButton.isSelected()) {
             try{
-                String buyingPrice = ((String)buyingComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
-                data.add(buyingPrice);
-                String maintenancePrice = ((String)maintComboBox.getSelectedItem()).toLowerCase().replace("very ", "v").replace("ium", "");
-                data.add(maintenancePrice);
-                String doors = ((String)doorsComboBox.getSelectedItem()).replace(">=5", "5more");
-                data.add(doors);
-                String persons = ((String)personsComboBox.getSelectedItem()).toLowerCase();
-                data.add(persons);
-                String luggageBoot = ((String)lugBootComboBox.getSelectedItem()).toLowerCase();
-                data.add(luggageBoot);
-                String safety = ((String)safetyComboBox.getSelectedItem()).toLowerCase();
-                data.add(safety);
                 int k = Integer.valueOf(kTextField.getText());
                 kNN knn = new kNN();
-                String result = knn.classify(dataset.getDataset(), data, k);
+                String result = resultstring.get(knn.classify(dataset.getDataset(), data, k));
                 knn.printQueue();
                 resultText.setText(result);
             } catch (NumberFormatException e) {
@@ -449,6 +496,7 @@ public class UIFrame extends javax.swing.JFrame {
         this.setContentPane(Model);
         this.invalidate();
         this.validate();
+        
     }//GEN-LAST:event_modelButtonActionPerformed
 
     private void createModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createModelActionPerformed
@@ -475,6 +523,25 @@ public class UIFrame extends javax.swing.JFrame {
             kNNButton.setSelected(false);
         }
     }//GEN-LAST:event_nbButtonActionPerformed
+
+    private void filePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filePathActionPerformed
+
+    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_browseButtonActionPerformed
+
+    private void browseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseButtonMouseClicked
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "ARFF", "arff");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(Model);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+           filePath.setText(chooser.getSelectedFile().getAbsolutePath());
+        }
+    }//GEN-LAST:event_browseButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -511,6 +578,8 @@ public class UIFrame extends javax.swing.JFrame {
         });
     }
 
+    private java.util.Map<String,String> resultstring = new java.util.HashMap<>();
+    private JFileChooser chooser = new JFileChooser();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Classify;
     private javax.swing.JPanel MainMenu;
@@ -521,6 +590,7 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JButton backFromModel;
     private javax.swing.JLabel bg;
     private javax.swing.JLabel bgClassifier;
+    private javax.swing.JLabel bgModel;
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel buyLabel;
     private javax.swing.JComboBox buyingComboBox;
