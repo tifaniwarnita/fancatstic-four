@@ -68,6 +68,8 @@ public class UIFrame extends javax.swing.JFrame {
                 .getImage().getScaledInstance(55, 52, Image.SCALE_SMOOTH)));
         backFromModel.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\back_button_model.png")
                 .getImage().getScaledInstance(55, 52, Image.SCALE_SMOOTH)));
+        backFromModelResult.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\back_button_result.png")
+                .getImage().getScaledInstance(55, 52, Image.SCALE_SMOOTH)));
         evaluateButton.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\evaluate_button.png")
                 .getImage().getScaledInstance(119, 43, Image.SCALE_SMOOTH)));
         
@@ -76,7 +78,8 @@ public class UIFrame extends javax.swing.JFrame {
         
         createModel.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\create_model_button.png")
                 .getImage().getScaledInstance(208, 56, Image.SCALE_SMOOTH)));
-        
+        bgResult.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "\\src\\gui\\images\\model_result_page.png")
+                .getImage().getScaledInstance(950, 710, Image.SCALE_SMOOTH)));
         
         NaiveBayesClassifier.buildModelFromFile("carmodel.txt");
         resultstring.put("unacc","Unacceptable");
@@ -119,11 +122,16 @@ public class UIFrame extends javax.swing.JFrame {
         Model = new javax.swing.JPanel();
         filePath = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
-        algoComboBox = new javax.swing.JComboBox<String>();
-        schemaComboBox = new javax.swing.JComboBox<String>();
+        algoComboBox = new javax.swing.JComboBox<>();
+        schemaComboBox = new javax.swing.JComboBox<>();
         createModel = new javax.swing.JButton();
         backFromModel = new javax.swing.JButton();
         bgModel = new javax.swing.JLabel();
+        ModelResult = new javax.swing.JPanel();
+        resultBox = new javax.swing.JScrollPane();
+        resultArea = new javax.swing.JTextArea();
+        backFromModelResult = new javax.swing.JButton();
+        bgResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(945, 708));
@@ -337,7 +345,6 @@ public class UIFrame extends javax.swing.JFrame {
         browseButton.setBorderPainted(false);
         browseButton.setContentAreaFilled(false);
         browseButton.setFocusPainted(false);
-        browseButton.setOpaque(false);
         browseButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 browseButtonMouseClicked(evt);
@@ -351,11 +358,11 @@ public class UIFrame extends javax.swing.JFrame {
         Model.add(browseButton);
         browseButton.setBounds(720, 400, 150, 60);
 
-        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "kNN", "Naive Bayes" }));
+        algoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "kNN", "Naive Bayes" }));
         Model.add(algoComboBox);
         algoComboBox.setBounds(290, 480, 180, 30);
 
-        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
+        schemaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Full Training", "10-fold Cross Validation", "10-fold Cross Validation (Random)" }));
         Model.add(schemaComboBox);
         schemaComboBox.setBounds(500, 480, 230, 30);
 
@@ -384,6 +391,46 @@ public class UIFrame extends javax.swing.JFrame {
         Model.add(bgModel);
         bgModel.setBounds(0, 0, 950, 710);
 
+        ModelResult.setPreferredSize(new java.awt.Dimension(950, 710));
+        ModelResult.setLayout(null);
+
+        resultBox.setBorder(null);
+        resultBox.setHorizontalScrollBar(null);
+        resultBox.setMaximumSize(new java.awt.Dimension(600, 400));
+        resultBox.setMinimumSize(new java.awt.Dimension(600, 400));
+        resultBox.setOpaque(false);
+        resultBox.setPreferredSize(new java.awt.Dimension(600, 400));
+
+        resultArea.setBackground(new java.awt.Color(255, 255, 219));
+        resultArea.setColumns(20);
+        resultArea.setRows(5);
+        resultArea.setText("hkhkjhjkhjkhkj");
+        resultArea.setWrapStyleWord(true);
+        resultArea.setAutoscrolls(false);
+        resultArea.setBorder(null);
+        resultArea.setMaximumSize(new java.awt.Dimension(600, 400));
+        resultArea.setMinimumSize(new java.awt.Dimension(600, 400));
+        resultArea.setOpaque(false);
+        resultArea.setPreferredSize(new java.awt.Dimension(600, 400));
+        resultArea.setRequestFocusEnabled(false);
+        resultBox.setViewportView(resultArea);
+
+        ModelResult.add(resultBox);
+        resultBox.setBounds(150, 250, 600, 400);
+
+        backFromModelResult.setBorderPainted(false);
+        backFromModelResult.setContentAreaFilled(false);
+        backFromModelResult.setFocusPainted(false);
+        backFromModelResult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backFromModelResultActionPerformed(evt);
+            }
+        });
+        ModelResult.add(backFromModelResult);
+        backFromModelResult.setBounds(20, 20, 55, 55);
+        ModelResult.add(bgResult);
+        bgResult.setBounds(0, 0, 950, 710);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -397,12 +444,14 @@ public class UIFrame extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ModelResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
+            .addComponent(MainMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 1420, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -412,6 +461,8 @@ public class UIFrame extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(Model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(ModelResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -500,7 +551,9 @@ public class UIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_modelButtonActionPerformed
 
     private void createModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createModelActionPerformed
-        // TODO add your handling code here:
+        this.setContentPane(ModelResult);
+        this.invalidate();
+        this.validate();
     }//GEN-LAST:event_createModelActionPerformed
 
     private void backFromClassifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backFromClassifyActionPerformed
@@ -543,6 +596,12 @@ public class UIFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_browseButtonMouseClicked
 
+    private void backFromModelResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backFromModelResultActionPerformed
+        this.setContentPane(Model);
+        this.invalidate();
+        this.validate();
+    }//GEN-LAST:event_backFromModelResultActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -584,13 +643,16 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JPanel Classify;
     private javax.swing.JPanel MainMenu;
     private javax.swing.JPanel Model;
+    private javax.swing.JPanel ModelResult;
     private javax.swing.JLabel alertLabel;
     private javax.swing.JComboBox<String> algoComboBox;
     private javax.swing.JButton backFromClassify;
     private javax.swing.JButton backFromModel;
+    private javax.swing.JButton backFromModelResult;
     private javax.swing.JLabel bg;
     private javax.swing.JLabel bgClassifier;
     private javax.swing.JLabel bgModel;
+    private javax.swing.JLabel bgResult;
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel buyLabel;
     private javax.swing.JComboBox buyingComboBox;
@@ -611,6 +673,8 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton nbButton;
     private javax.swing.JLabel personLabel;
     private javax.swing.JComboBox personsComboBox;
+    private javax.swing.JTextArea resultArea;
+    private javax.swing.JScrollPane resultBox;
     private javax.swing.JLabel resultText;
     private javax.swing.JComboBox safetyComboBox;
     private javax.swing.JLabel safetyLabel;
