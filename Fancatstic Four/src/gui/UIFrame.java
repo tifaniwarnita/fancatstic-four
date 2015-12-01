@@ -8,6 +8,8 @@ package gui;
 import fancatstic.four.DataSet;
 import fancatstic.four.NaiveBayesClassifier;
 import fancatstic.four.kNN;
+import fancatstic.four.kNNSolver;
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -24,6 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class UIFrame extends javax.swing.JFrame {
     private DataSet dataset;
+    private String result = "hai";
     /**
      * Creates new form UIFrame
      */
@@ -404,7 +407,7 @@ public class UIFrame extends javax.swing.JFrame {
         resultArea.setBackground(new java.awt.Color(255, 255, 219));
         resultArea.setColumns(20);
         resultArea.setRows(5);
-        resultArea.setText("hkhkjhjkhjkhkj");
+        resultArea.setText(result);
         resultArea.setWrapStyleWord(true);
         resultArea.setAutoscrolls(false);
         resultArea.setBorder(null);
@@ -551,9 +554,34 @@ public class UIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_modelButtonActionPerformed
 
     private void createModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createModelActionPerformed
+        dataset = new DataSet(filePath.getText());
+        int schema;
+        
+        if (schemaComboBox.getSelectedItem().equals("Full Training")){
+            schema = 1;
+        }
+        else if (schemaComboBox.getSelectedItem().equals("10-fold Cross Validation")){
+            schema = 2;
+        }
+        else {
+            schema = 3;
+        }
+        
+        
+        if (algoComboBox.getSelectedItem().equals("kNN")){
+            result = generateResultkNN(1, schema);
+            
+        }
+        else { //Naive Bayes
+            result = "naive bayes";
+        }
+        
+        resultArea.setText(result);
+        ModelResult.repaint();
         this.setContentPane(ModelResult);
-        this.invalidate();
-        this.validate();
+        this.revalidate();
+        this.repaint();
+        
     }//GEN-LAST:event_createModelActionPerformed
 
     private void backFromClassifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backFromClassifyActionPerformed
@@ -601,7 +629,40 @@ public class UIFrame extends javax.swing.JFrame {
         this.invalidate();
         this.validate();
     }//GEN-LAST:event_backFromModelResultActionPerformed
-
+    
+    
+    private String generateResultkNN(int k, int schema){
+        kNNSolver knn = new kNNSolver(dataset, k, schema);
+        String result = "=== Result ===" + "\n" +
+                        "Correctly Classified Intances" + "\t" + knn.countCorrect() + "\t" + knn.countAccuracy()*100 + "%" +"\n" +
+                        "Incorrectly Classified Intances" + "\t" + knn.countIncorrect() + "\t" + (1-knn.countAccuracy())*100 + "%" +"\n" +
+                        "\n" +
+                        "=== Confusion Matrix ===" + "\n";
+        int[][] matrix = knn.confusionMatrix();
+        for (int i=0; i < knn.countClass(); i++){
+            result = result.concat(" " + " " + " " + i + " "); 
+        }
+        result = result.concat("  <-- classified as \n");
+        
+        for (int i=0; i < knn.countClass(); i++){
+            for (int j=0; j < knn.countClass(); j++){
+              if (matrix[i][j] < 10){
+                result = result.concat("   ");
+              }
+              else if (matrix[i][j] < 100){
+                result = result.concat("  ");
+              }
+              else if (matrix[i][j] < 1000){
+                result = result.concat(" ");
+              }
+              result = result.concat(matrix[i][j] + " "); 
+            }
+            result = result.concat(" |  "+ i +" = " + dataset.getClassValues().get(i) + "\n");
+        }
+       
+        return result;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -636,6 +697,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
     }
+    
 
     private java.util.Map<String,String> resultstring = new java.util.HashMap<>();
     private JFileChooser chooser = new JFileChooser();

@@ -54,6 +54,30 @@ public class kNNSolver {
         }
     }
     
+    public int countCorrect(){
+        int count = 0;
+    
+        for (int i=0; i<oldClasses.size(); i++) {
+            if (oldClasses.get(i).equals(newClasses.get(i))){
+                count++;
+            }   
+        }
+        
+        return count;
+    }
+    
+    public int countIncorrect(){
+        int count = 0;
+    
+        for (int i=0; i<oldClasses.size(); i++) {
+            if (oldClasses.get(i).equals(newClasses.get(i))){
+                count++;
+            }   
+        }
+        
+        return oldClasses.size()-count;
+    }
+    
     public float countAccuracy(){
         int count = 0;
     
@@ -131,6 +155,11 @@ public class kNNSolver {
         }
     }
     
+    public int countClass(){
+        int nclass = classValues.size();
+        return nclass;
+    }
+    
     public int[][] confusionMatrix(){
         int nclass = classValues.size();
         int[][] matrix = new int[nclass][nclass];
@@ -144,7 +173,7 @@ public class kNNSolver {
         for (int i=0; i < newClasses.size(); i++){
             for (int j=0; j<nclass; j++){ //actual values
                 for (int k=0; k<nclass; k++){ //prediction
-                    if (oldClasses.equals(classValues.get(j)) && newClasses.get(i).equals(classValues.get(k))){
+                    if (oldClasses.get(i).equals(classValues.get(j)) && newClasses.get(i).equals(classValues.get(k))){
                         matrix[j][k]++;
                     }
                 }
