@@ -27,7 +27,7 @@ public class kNN {
         neighbors = new PriorityQueue(k, new Comparator<Neighbor>() {
             @Override
             public int compare(Neighbor neighbor1, Neighbor neighbor2) {
-                return (neighbor1.distance < neighbor2.distance ? 1 : -1);
+                return (neighbor1.distance <= neighbor2.distance ? 1 : -1);
             }
         });
         

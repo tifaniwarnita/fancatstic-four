@@ -17,6 +17,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -146,6 +147,7 @@ public class UIFrame extends javax.swing.JFrame {
         bgResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("FantasticFour");
         setPreferredSize(new java.awt.Dimension(945, 708));
 
         MainMenu.setLayout(null);
@@ -425,7 +427,6 @@ public class UIFrame extends javax.swing.JFrame {
         ModelResult.setLayout(null);
 
         resultBox.setBorder(null);
-        resultBox.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         resultBox.setAutoscrolls(true);
         resultBox.setHorizontalScrollBar(null);
         resultBox.setMaximumSize(new java.awt.Dimension(600, 1000));
@@ -673,11 +674,11 @@ public class UIFrame extends javax.swing.JFrame {
     
     private String generateResultkNN(int k, int schema){
         kNNSolver knn = new kNNSolver(dataset, k, schema);
-        String result = "=== Result ===" + "\n" +
-                        "Correctly Classified Intances" + "\t" + knn.countCorrect() + "\t" + knn.countAccuracy()*100 + "%" +"\n" +
-                        "Incorrectly Classified Intances" + "\t" + knn.countIncorrect() + "\t" + (1-knn.countAccuracy())*100 + "%" +"\n" +
-                        "\n" +
-                        "=== Confusion Matrix ===" + "\n";
+        String result = "======= Result =======" + "\n" +
+                        "Correctly Classified Intances" + "\t" + knn.countCorrect() + "\t" + round(knn.countAccuracy()*100,2) + "%" +"\n" +
+                        "Incorrectly Classified Intances" + "\t" + knn.countIncorrect() + "\t" + round((1-knn.countAccuracy())*100,2) + "%" +"\n" +
+                        "\n\n" +
+                        "======= Confusion Matrix =======" + "\n";
         int[][] matrix = knn.confusionMatrix();
         for (int i=0; i < knn.countClass(); i++){
             result = result.concat((char)(97+i) + "\t"); 
@@ -692,6 +693,10 @@ public class UIFrame extends javax.swing.JFrame {
         }
        
         return result;
+    }
+    
+    public static float round(float d, int decimalPlace) {
+         return BigDecimal.valueOf(d).setScale(decimalPlace,BigDecimal.ROUND_HALF_UP).floatValue();
     }
     
     private String generateResultNB(int schema){

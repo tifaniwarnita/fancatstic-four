@@ -1,12 +1,11 @@
-Correctly Classified: 1266
-Incorrectly Classified: 462
+Correctly Classified Instances: 1510
+Incorrectly Classified Instances: 218
 
-Average accuracy: 73.25145%
-Max accuracy: 90.17341%
+Accuracy: 87.38426%
 
-Confusion Matrix
+Confusion Matrix:
 a	b	c	d	<-- classified as
-1100	110	0	0	|  a = unacc
-221	162	0	1	|  b = acc
-0	67	0	2	|  c = good
-0	61	0	4	|  d = vgood
+1161	47	2	0	|  a = unacc
+85	289	10	0	|  b = acc
+0	46	21	2	|  c = good
+0	26	0	39	|  d = vgood

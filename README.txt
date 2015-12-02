@@ -1,4 +1,4 @@
-FANCATSTICFOUR
+FANCATSTIC FOUR
 13513025 - Venny Larasati Ayudiani
 13513055 - Tifani Warnita
 13513069 - Jessica Handayani
@@ -9,12 +9,20 @@ Program FancatsticFour merupakan program yang dapat melakukan klasifikasi untuk 
 
 LANGKAH PENGGUNAAN PROGRAM:
 1. Jalankan program menggunakan Java Virtual Machine.
-2. Masukkan nama file yang akan diklasifikasi yang bertipe arff.
-3. Pilih metode pengklasifikasian: 
-	1 untuk k-NN
-	2 untuk Naive Bayes
-4. Pilih skema yang akan digunakan:
-	1 untuk full training
-	2 untuk 10-fold cross validation
-	3 untuk 10-fold random cross validation
-5. Hasil klasifikasi akan ditampilkan.
+2. Pada menu utama, akan terdapat 2 pilihan :
+   Untuk melakukan klasifikasi, pilih 'Classifier'
+   Untuk melihat implementasi pada seluruh dataset, pilih 'Model'
+   
+	KLASIFIKASI :
+	1. Pilih metode yang digunakan, yaitu kNN atau Naive Bayes.
+	2. Jika menggunakan kNN, masukkan jumlah k yang diinginkan.
+	3. Untuk mengetahui kelas dari suatu data car.arff, masukkan seluruh atribut data yang diuji.
+	4. Tekan tombol 'Evaluate'
+	5. Hasil klasifikasi untuk data yang dimasukkan akan ditampilkan.
+	
+	IMPLEMENTASI :
+	1. Pilih dataset yang akan digunakan dengan menekan tombol Browse.
+	2. Pilih metode yang digunakan, yaitu kNN atau Naive Bayes.
+	3. Jika menggunakan kNN, masukkan jumlah k yag diinginkan.
+	4. Tekan tombol Create Model untuk melihat hasil model implementasi.
+	5. Hasil model implementasi akan ditampilkan, berikut juga dengan tingkat akurasi dan confusion matrix.
