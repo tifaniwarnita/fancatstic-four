@@ -444,7 +444,7 @@ public class UIFrame extends javax.swing.JFrame {
         resultArea.setMaximumSize(new java.awt.Dimension(600, 1000));
         resultArea.setMinimumSize(new java.awt.Dimension(600, 400));
         resultArea.setOpaque(false);
-        resultArea.setPreferredSize(new java.awt.Dimension(600, 400));
+        resultArea.setPreferredSize(new java.awt.Dimension(600, 1000));
         resultArea.setRequestFocusEnabled(false);
         resultBox.setViewportView(resultArea);
 
@@ -591,8 +591,6 @@ public class UIFrame extends javax.swing.JFrame {
         if (filePath.getText().isEmpty()){
             alertLabel2.setText("Please input filepath");
         } else {
-        try {
-            int k = Integer.valueOf(kTextField1.getText());
             if (schemaComboBox.getSelectedItem().equals("Full Training")){
                 schema = 1;
             } else if (schemaComboBox.getSelectedItem().equals("10-fold Cross Validation")){
@@ -602,20 +600,26 @@ public class UIFrame extends javax.swing.JFrame {
             }
 
             if (algoComboBox.getSelectedItem().equals("kNN")){
-                result = generateResultkNN(k, schema);   
+                try {
+                    int k = Integer.valueOf(kTextField1.getText());
+                    result = generateResultkNN(k, schema);
+                    resultArea.setText(result);
+                    ModelResult.repaint();
+                    this.setContentPane(ModelResult);
+                    this.revalidate();
+                    this.repaint();
+                } catch (NumberFormatException e) {
+                    alertLabel1.setText("Please input number for k!");
+                }
             } else { //Naive Bayes
                 result = generateResultNB(schema);
+                resultArea.setText(result);
+                ModelResult.repaint();
+                this.setContentPane(ModelResult);
+                this.revalidate();
+                this.repaint();
             }
-
-            resultArea.setText(result);
-            ModelResult.repaint();
-            this.setContentPane(ModelResult);
-            this.revalidate();
-            this.repaint();
-        
-        } catch (NumberFormatException e) {
-            alertLabel1.setText("Please input number for k!");
-        }
+       
         }
         
     }//GEN-LAST:event_createModelActionPerformed

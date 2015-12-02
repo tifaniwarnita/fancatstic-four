@@ -1,22 +1,39 @@
-outlook
-sunny - yes: 2 - no: 3
-overcast - yes: 4 - no: 0
-rainy - yes: 3 - no: 2
+buying
+vhigh - unacc: 360 - acc: 72 - good: 0 - vgood: 0
+high - unacc: 324 - acc: 108 - good: 0 - vgood: 0
+med - unacc: 268 - acc: 115 - good: 23 - vgood: 26
+low - unacc: 258 - acc: 89 - good: 46 - vgood: 39
 
-temperature
-hot - yes: 2 - no: 2
-mild - yes: 4 - no: 2
-cool - yes: 3 - no: 1
+maint
+vhigh - unacc: 360 - acc: 72 - good: 0 - vgood: 0
+high - unacc: 314 - acc: 105 - good: 0 - vgood: 13
+med - unacc: 268 - acc: 115 - good: 23 - vgood: 26
+low - unacc: 268 - acc: 92 - good: 46 - vgood: 26
 
-humidity
-high - yes: 3 - no: 4
-normal - yes: 6 - no: 1
+doors
+2 - unacc: 326 - acc: 81 - good: 15 - vgood: 10
+3 - unacc: 300 - acc: 99 - good: 18 - vgood: 15
+4 - unacc: 292 - acc: 102 - good: 18 - vgood: 20
+5more - unacc: 292 - acc: 102 - good: 18 - vgood: 20
 
-windy
-TRUE - yes: 3 - no: 3
-FALSE - yes: 6 - no: 2
+persons
+2 - unacc: 576 - acc: 0 - good: 0 - vgood: 0
+4 - unacc: 312 - acc: 198 - good: 36 - vgood: 30
+more - unacc: 322 - acc: 186 - good: 33 - vgood: 35
+
+lug_boot
+small - unacc: 450 - acc: 105 - good: 21 - vgood: 0
+med - unacc: 392 - acc: 135 - good: 24 - vgood: 25
+big - unacc: 368 - acc: 144 - good: 24 - vgood: 40
+
+safety
+low - unacc: 576 - acc: 0 - good: 0 - vgood: 0
+med - unacc: 357 - acc: 180 - good: 39 - vgood: 0
+high - unacc: 277 - acc: 204 - good: 30 - vgood: 65
 
 Class
-yes - 9
-no - 5
-total - 14
+unacc - 1210
+acc - 384
+good - 69
+vgood - 65
+total - 1728

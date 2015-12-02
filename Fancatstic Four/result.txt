@@ -1,10 +1,12 @@
-Correctly Classified: 7
-Incorrectly Classified: 7
+Correctly Classified: 1266
+Incorrectly Classified: 462
 
-Average accuracy: 55.0%
-Max accuracy: 100.0%
+Average accuracy: 73.25145%
+Max accuracy: 90.17341%
 
 Confusion Matrix
-a	b	<-- classified as
-7	2	|  a = yes
-5	0	|  b = no
+a	b	c	d	<-- classified as
+1100	110	0	0	|  a = unacc
+221	162	0	1	|  b = acc
+0	67	0	2	|  c = good
+0	61	0	4	|  d = vgood
