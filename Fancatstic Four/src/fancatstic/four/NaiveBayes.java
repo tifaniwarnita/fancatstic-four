@@ -195,11 +195,16 @@ public class NaiveBayes {
                 writer.println();
                 writer.println("Confusion Matrix:");
                 int[][] matrix = confusionMatrix(fullset,testSet(fullset,model));
+                for (int i=0; i<classValues.size();i++){
+                    writer.print((char)(97+i) + "\t");
+                }
+                writer.println("<-- classified as");
                 for (int j=0; j<classValues.size(); j++){
                     for (int k=0; k<classValues.size(); k++){
-                        writer.print(matrix[j][k]+" ");
+                        writer.print(matrix[j][k]);
+                        writer.print("\t");
                     }
-                    writer.println();
+                    writer.println("|  "+(char)(97+j) +" = " + classValues.get(j));
                 }
                 try {
                     exportModel("model.txt",model);
@@ -263,7 +268,6 @@ public class NaiveBayes {
                     if (j==k) correct+=matrix[j][k];
                     else incorrect+=matrix[j][k];
                 }
-                writer.println();
             }
             writer.println("Correctly Classified: "+correct);
             writer.println("Incorrectly Classified: "+incorrect);
@@ -272,11 +276,16 @@ public class NaiveBayes {
             writer.println("Max accuracy: "+maxacc*100+"%");
             writer.println();
             writer.println("Confusion Matrix");
+            for (int i=0; i<classValues.size();i++){
+                writer.print((char)(97+i) + "\t");
+            }
+            writer.println("<-- classified as");
             for (int j=0; j<classValues.size(); j++){
                 for (int k=0; k<classValues.size(); k++){
-                    writer.printf("%.2f",matrix[j][k]);
-                    writer.print(" ");
+                    writer.printf("%.0f",matrix[j][k]);
+                    writer.print("\t");
                 }
+                writer.println("|  "+(char)(97+j) +" = " + classValues.get(j));
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
@@ -349,13 +358,17 @@ public class NaiveBayes {
             writer.println("Max accuracy: "+maxacc*100+"%");
             writer.println();
             writer.println("Confusion Matrix");
+            for (int i=0; i<classValues.size();i++){
+                writer.print((char)(97+i) + "\t");
+            }
+            writer.println("<-- classified as");
             for (int j=0; j<classValues.size(); j++){
                 for (int k=0; k<classValues.size(); k++){
                     matrix[j][k] = matrix[j][k];
-                    writer.printf("%.2f",matrix[j][k]);
-                    writer.print(" ");
+                    writer.printf("%.0f",matrix[j][k]);
+                    writer.print("\t");
                 }
-                writer.println();
+                writer.println("|  "+(char)(97+j) +" = " + classValues.get(j));
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);

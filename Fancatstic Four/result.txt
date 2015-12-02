@@ -1,8 +1,10 @@
-Correctly Classified Instances: 13
-Incorrectly Classified Instances: 1
+Correctly Classified: 7
+Incorrectly Classified: 7
 
-Accuracy: 92.85714%
+Average accuracy: 55.0%
+Max accuracy: 100.0%
 
-Confusion Matrix:
-9 0 
-1 4 
+Confusion Matrix
+a	b	<-- classified as
+7	2	|  a = yes
+5	0	|  b = no

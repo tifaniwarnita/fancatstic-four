@@ -134,6 +134,10 @@ public class UIFrame extends javax.swing.JFrame {
         schemaComboBox = new javax.swing.JComboBox<>();
         createModel = new javax.swing.JButton();
         backFromModel = new javax.swing.JButton();
+        alertLabel1 = new javax.swing.JLabel();
+        alertLabel2 = new javax.swing.JLabel();
+        kTextField1 = new javax.swing.JTextField();
+        kLabel1 = new javax.swing.JLabel();
         bgModel = new javax.swing.JLabel();
         ModelResult = new javax.swing.JPanel();
         resultBox = new javax.swing.JScrollPane();
@@ -364,7 +368,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Model.add(browseButton);
-        browseButton.setBounds(720, 400, 150, 60);
+        browseButton.setBounds(720, 405, 150, 60);
 
         algoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "kNN", "Naive Bayes" }));
         Model.add(algoComboBox);
@@ -384,7 +388,7 @@ public class UIFrame extends javax.swing.JFrame {
             }
         });
         Model.add(createModel);
-        createModel.setBounds(380, 540, 220, 70);
+        createModel.setBounds(380, 560, 220, 70);
 
         backFromModel.setBorderPainted(false);
         backFromModel.setContentAreaFilled(false);
@@ -396,6 +400,24 @@ public class UIFrame extends javax.swing.JFrame {
         });
         Model.add(backFromModel);
         backFromModel.setBounds(20, 20, 55, 55);
+
+        alertLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        alertLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        Model.add(alertLabel1);
+        alertLabel1.setBounds(450, 525, 270, 20);
+
+        alertLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        alertLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        Model.add(alertLabel2);
+        alertLabel2.setBounds(450, 525, 270, 20);
+        Model.add(kTextField1);
+        kTextField1.setBounds(370, 520, 70, 30);
+
+        kLabel1.setFont(new java.awt.Font("GrilledCheese BTN Toasted", 0, 24)); // NOI18N
+        kLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        kLabel1.setText("k:");
+        Model.add(kLabel1);
+        kLabel1.setBounds(340, 525, 20, 20);
         Model.add(bgModel);
         bgModel.setBounds(0, 0, 950, 710);
 
@@ -406,10 +428,11 @@ public class UIFrame extends javax.swing.JFrame {
         resultBox.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         resultBox.setAutoscrolls(true);
         resultBox.setHorizontalScrollBar(null);
-        resultBox.setMaximumSize(new java.awt.Dimension(600, 400));
+        resultBox.setMaximumSize(new java.awt.Dimension(600, 1000));
         resultBox.setMinimumSize(new java.awt.Dimension(600, 400));
         resultBox.setOpaque(false);
-        resultBox.setPreferredSize(new java.awt.Dimension(600, 400));
+        resultBox.setPreferredSize(new java.awt.Dimension(600, 1000));
+        resultBox.setRequestFocusEnabled(false);
 
         resultArea.setBackground(new java.awt.Color(255, 255, 219));
         resultArea.setColumns(20);
@@ -563,31 +586,37 @@ public class UIFrame extends javax.swing.JFrame {
     private void createModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createModelActionPerformed
         dataset = new DataSet(filePath.getText());
         int schema;
+        alertLabel1.setText("");
+        alertLabel2.setText("");
+        if (filePath.getText().isEmpty()){
+            alertLabel2.setText("Please input filepath");
+        } else {
+        try {
+            int k = Integer.valueOf(kTextField1.getText());
+            if (schemaComboBox.getSelectedItem().equals("Full Training")){
+                schema = 1;
+            } else if (schemaComboBox.getSelectedItem().equals("10-fold Cross Validation")){
+                schema = 2;
+            } else {
+                schema = 3;
+            }
+
+            if (algoComboBox.getSelectedItem().equals("kNN")){
+                result = generateResultkNN(k, schema);   
+            } else { //Naive Bayes
+                result = generateResultNB(schema);
+            }
+
+            resultArea.setText(result);
+            ModelResult.repaint();
+            this.setContentPane(ModelResult);
+            this.revalidate();
+            this.repaint();
         
-        if (schemaComboBox.getSelectedItem().equals("Full Training")){
-            schema = 1;
+        } catch (NumberFormatException e) {
+            alertLabel1.setText("Please input number for k!");
         }
-        else if (schemaComboBox.getSelectedItem().equals("10-fold Cross Validation")){
-            schema = 2;
         }
-        else {
-            schema = 3;
-        }
-        
-        
-        if (algoComboBox.getSelectedItem().equals("kNN")){
-            result = generateResultkNN(1, schema);
-            
-        }
-        else { //Naive Bayes
-            result = generateResultNB(schema);
-        }
-        
-        resultArea.setText(result);
-        ModelResult.repaint();
-        this.setContentPane(ModelResult);
-        this.revalidate();
-        this.repaint();
         
     }//GEN-LAST:event_createModelActionPerformed
 
@@ -647,24 +676,15 @@ public class UIFrame extends javax.swing.JFrame {
                         "=== Confusion Matrix ===" + "\n";
         int[][] matrix = knn.confusionMatrix();
         for (int i=0; i < knn.countClass(); i++){
-            result = result.concat("\t" + i); 
+            result = result.concat((char)(97+i) + "\t"); 
         }
-        result = result.concat("\t<-- classified as \n");
+        result = result.concat("<-- classified as \n");
         
         for (int i=0; i < knn.countClass(); i++){
             for (int j=0; j < knn.countClass(); j++){
-              /*if (matrix[i][j] < 10){
-                result = result.concat("   ");
-              }
-              else if (matrix[i][j] < 100){
-                result = result.concat("  ");
-              }
-              else if (matrix[i][j] < 1000){
-                result = result.concat(" ");
-              }*/
-              result = result.concat("\t" + matrix[i][j] + " "); 
+              result = result.concat(matrix[i][j] + "\t"); 
             }
-            result = result.concat("\t|  "+ i +" = " + dataset.getClassValues().get(i) + "\n");
+            result = result.concat("|  "+ (char)(97+i) +" = " + dataset.getClassValues().get(i) + "\n");
         }
        
         return result;
@@ -753,6 +773,8 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JPanel Model;
     private javax.swing.JPanel ModelResult;
     private javax.swing.JLabel alertLabel;
+    private javax.swing.JLabel alertLabel1;
+    private javax.swing.JLabel alertLabel2;
     private javax.swing.JComboBox<String> algoComboBox;
     private javax.swing.JButton backFromClassify;
     private javax.swing.JButton backFromModel;
@@ -771,8 +793,10 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JButton evaluateButton;
     private javax.swing.JTextField filePath;
     private javax.swing.JLabel kLabel;
+    private javax.swing.JLabel kLabel1;
     private javax.swing.JRadioButton kNNButton;
     private javax.swing.JTextField kTextField;
+    private javax.swing.JTextField kTextField1;
     private javax.swing.JComboBox lugBootComboBox;
     private javax.swing.JLabel lugLabel;
     private javax.swing.JComboBox maintComboBox;
