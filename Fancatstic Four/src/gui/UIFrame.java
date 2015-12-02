@@ -640,13 +640,13 @@ public class UIFrame extends javax.swing.JFrame {
                         "=== Confusion Matrix ===" + "\n";
         int[][] matrix = knn.confusionMatrix();
         for (int i=0; i < knn.countClass(); i++){
-            result = result.concat(" " + " " + " " + i + " "); 
+            result = result.concat("\t" + i); 
         }
-        result = result.concat("  <-- classified as \n");
+        result = result.concat("\t<-- classified as \n");
         
         for (int i=0; i < knn.countClass(); i++){
             for (int j=0; j < knn.countClass(); j++){
-              if (matrix[i][j] < 10){
+              /*if (matrix[i][j] < 10){
                 result = result.concat("   ");
               }
               else if (matrix[i][j] < 100){
@@ -654,10 +654,10 @@ public class UIFrame extends javax.swing.JFrame {
               }
               else if (matrix[i][j] < 1000){
                 result = result.concat(" ");
-              }
-              result = result.concat(matrix[i][j] + " "); 
+              }*/
+              result = result.concat("\t" + matrix[i][j] + " "); 
             }
-            result = result.concat(" |  "+ i +" = " + dataset.getClassValues().get(i) + "\n");
+            result = result.concat("\t|  "+ i +" = " + dataset.getClassValues().get(i) + "\n");
         }
        
         return result;
