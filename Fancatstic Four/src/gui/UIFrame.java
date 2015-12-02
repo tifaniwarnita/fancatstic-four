@@ -6,6 +6,7 @@
 package gui;
 
 import fancatstic.four.DataSet;
+import fancatstic.four.NaiveBayes;
 import fancatstic.four.NaiveBayesClassifier;
 import fancatstic.four.kNN;
 import fancatstic.four.kNNSolver;
@@ -14,6 +15,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -398,6 +403,8 @@ public class UIFrame extends javax.swing.JFrame {
         ModelResult.setLayout(null);
 
         resultBox.setBorder(null);
+        resultBox.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        resultBox.setAutoscrolls(true);
         resultBox.setHorizontalScrollBar(null);
         resultBox.setMaximumSize(new java.awt.Dimension(600, 400));
         resultBox.setMinimumSize(new java.awt.Dimension(600, 400));
@@ -406,12 +413,12 @@ public class UIFrame extends javax.swing.JFrame {
 
         resultArea.setBackground(new java.awt.Color(255, 255, 219));
         resultArea.setColumns(20);
+        resultArea.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
         resultArea.setRows(5);
         resultArea.setText(result);
         resultArea.setWrapStyleWord(true);
-        resultArea.setAutoscrolls(false);
         resultArea.setBorder(null);
-        resultArea.setMaximumSize(new java.awt.Dimension(600, 400));
+        resultArea.setMaximumSize(new java.awt.Dimension(600, 1000));
         resultArea.setMinimumSize(new java.awt.Dimension(600, 400));
         resultArea.setOpaque(false);
         resultArea.setPreferredSize(new java.awt.Dimension(600, 400));
@@ -573,7 +580,7 @@ public class UIFrame extends javax.swing.JFrame {
             
         }
         else { //Naive Bayes
-            result = "naive bayes";
+            result = generateResultNB(schema);
         }
         
         resultArea.setText(result);
@@ -660,6 +667,45 @@ public class UIFrame extends javax.swing.JFrame {
             result = result.concat("\t|  "+ i +" = " + dataset.getClassValues().get(i) + "\n");
         }
        
+        return result;
+    }
+    
+    private String generateResultNB(int schema){
+        String result = "";
+        NaiveBayes nb = new NaiveBayes(dataset.getDataset(),dataset.getAttributes(),dataset.getAttributeValues(),dataset.getClassValues());
+        if (schema==1){
+            nb.fullTraining();
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("model.txt"));
+                String line = br.readLine();
+                result+="======= MODEL =======\n";
+                while (line != null) {
+                    result+=line+"\n";
+                    line = br.readLine();
+                }
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (schema==2){
+            nb.crossValidation(10);
+        } else { // schema==3
+            nb.randCrossValidation(10);
+        }
+        
+        try {
+            BufferedReader br2 = new BufferedReader(new FileReader("result.txt"));
+            String line = br2.readLine();
+            result+="\n======= RESULT ======\n";
+            while (line != null) {
+                result+=line+"\n";
+                line = br2.readLine();
+            }
+            br2.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         return result;
     }
     

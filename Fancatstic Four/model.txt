@@ -1,21 +1,22 @@
 outlook
-sunny - yes: 2/14 - no: 3/14
-overcast - yes: 4/14 - no: 0/14
-rainy - yes: 3/14 - no: 2/14
+sunny - yes: 2 - no: 3
+overcast - yes: 4 - no: 0
+rainy - yes: 3 - no: 2
 
 temperature
-hot - yes: 2/14 - no: 2/14
-mild - yes: 4/14 - no: 2/14
-cool - yes: 3/14 - no: 1/14
+hot - yes: 2 - no: 2
+mild - yes: 4 - no: 2
+cool - yes: 3 - no: 1
 
 humidity
-high - yes: 3/14 - no: 4/14
-normal - yes: 6/14 - no: 1/14
+high - yes: 3 - no: 4
+normal - yes: 6 - no: 1
 
 windy
-TRUE - yes: 3/14 - no: 3/14
-FALSE - yes: 6/14 - no: 2/14
+TRUE - yes: 3 - no: 3
+FALSE - yes: 6 - no: 2
 
 Class
-yes - 9/14
-no - 5/14
+yes - 9
+no - 5
+total - 14

@@ -155,9 +155,6 @@ public class NaiveBayes {
                 }
             }
             float acc = (float)a/dataset.size();
-            System.out.println();
-            System.out.println("Correctly Classified Instances: "+a);
-            System.out.println("Incorrectly Classified Instances: "+(dataset.size()-a));
             return acc;
         }
         
@@ -187,19 +184,30 @@ public class NaiveBayes {
         }
         
         public void fullTraining() {
-            Map<String,Map<String,Map<String,Integer>>> model = createModel(fullset);
-            printModel(model);
-            System.out.println("Accuracy: "+accuracy(fullset,testSet(fullset,model))*100+"%");
-            System.out.println("Confusion Matrix:");
-            int[][] matrix = confusionMatrix(fullset,testSet(fullset,model));
-            for (int j=0; j<classValues.size(); j++){
-                for (int k=0; k<classValues.size(); k++){
-                    System.out.print(matrix[j][k]+" ");
+            try (PrintWriter writer = new PrintWriter("result.txt", "UTF-8")) {
+                Map<String,Map<String,Map<String,Integer>>> model = createModel(fullset);
+                printModel(model);
+                float a = accuracy(fullset,testSet(fullset,model));
+                writer.println("Correctly Classified Instances: "+(int)(a*fullset.size()));
+                writer.println("Incorrectly Classified Instances: "+(int)(fullset.size()-a*fullset.size()));
+                writer.println();
+                writer.println("Accuracy: "+accuracy(fullset,testSet(fullset,model))*100+"%");
+                writer.println();
+                writer.println("Confusion Matrix:");
+                int[][] matrix = confusionMatrix(fullset,testSet(fullset,model));
+                for (int j=0; j<classValues.size(); j++){
+                    for (int k=0; k<classValues.size(); k++){
+                        writer.print(matrix[j][k]+" ");
+                    }
+                    writer.println();
                 }
-                System.out.println();
-            }
-            try {
-                exportModel("model.txt",model);
+                try {
+                    exportModel("model.txt",model);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnsupportedEncodingException ex) {
@@ -207,7 +215,7 @@ public class NaiveBayes {
             }
         }
         
-        void crossValidation(int folds) {
+    public void crossValidation(int folds) {
 	float sumacc = 0;
 	float maxacc = 0;
         float [][] matrix = new float[classValues.size()][classValues.size()];
@@ -224,49 +232,60 @@ public class NaiveBayes {
         }
         
         // Classify
-	for (int i=0;i<folds;i++) {
-            System.out.print("i = "+i);
-            start = last;
-            last = start + fullset.size()/folds;
-            if (i < fullset.size() % folds) {
-                last++;
-            }
-            testingset =  fullset.subList(start,last);
-            trainingset.clear();
-            if (start>0) trainingset.addAll(fullset.subList(0,start));
-            trainingset.addAll(fullset.subList(last,fullset.size()));
+        try (PrintWriter writer = new PrintWriter("result.txt", "UTF-8")) {
+            for (int i=0;i<folds;i++) {
+                start = last;
+                last = start + fullset.size()/folds;
+                if (i < fullset.size() % folds) {
+                    last++;
+                }
+                testingset =  fullset.subList(start,last);
+                trainingset.clear();
+                if (start>0) trainingset.addAll(fullset.subList(0,start));
+                trainingset.addAll(fullset.subList(last,fullset.size()));
+
+                float acc = accuracy(testingset,testSet(testingset,createModel(trainingset)));
+                sumacc += acc;
+                if (acc>maxacc) maxacc = acc;
                 
-            float acc = accuracy(testingset,testSet(testingset,createModel(trainingset)));
-            System.out.println("Accuracy: "+acc);
-            sumacc += acc;
-            if (acc>maxacc) maxacc = acc;
-            
-            System.out.println("Confusion Matrix");
-            int[][] cmatrix = confusionMatrix(testingset,testSet(testingset,createModel(trainingset)));
+                int[][] cmatrix = confusionMatrix(testingset,testSet(testingset,createModel(trainingset)));
+                for (int j=0; j<classValues.size(); j++){
+                    for (int k=0; k<classValues.size(); k++){
+                        matrix[j][k] += (float)cmatrix[j][k];
+                    }
+                }
+            }
+            float avgacc = (float)sumacc/(float)folds;
+            int correct = 0;
+            int incorrect = 0;
             for (int j=0; j<classValues.size(); j++){
                 for (int k=0; k<classValues.size(); k++){
-                    System.out.print(cmatrix[j][k]+ " ");
-                    matrix[j][k] += (float)cmatrix[j][k];
+                    if (j==k) correct+=matrix[j][k];
+                    else incorrect+=matrix[j][k];
                 }
-                System.out.println();
+                writer.println();
             }
-            System.out.println();
-	}
-	float avgacc = (float)sumacc/(float)folds;
-	System.out.println("Average accuracy: "+avgacc*100+"%");
-	System.out.println("Max accuracy: "+maxacc*100+"%");
-        System.out.println("Average Confusion Matrix");
-        for (int j=0; j<classValues.size(); j++){
-            for (int k=0; k<classValues.size(); k++){
-                matrix[j][k] = matrix[j][k]/(float)folds;
-                System.out.printf("%.2f",matrix[j][k]);
-                System.out.print(" ");
+            writer.println("Correctly Classified: "+correct);
+            writer.println("Incorrectly Classified: "+incorrect);
+            writer.println();
+            writer.println("Average accuracy: "+avgacc*100+"%");
+            writer.println("Max accuracy: "+maxacc*100+"%");
+            writer.println();
+            writer.println("Confusion Matrix");
+            for (int j=0; j<classValues.size(); j++){
+                for (int k=0; k<classValues.size(); k++){
+                    writer.printf("%.2f",matrix[j][k]);
+                    writer.print(" ");
+                }
             }
-            System.out.println();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
         
-    void randCrossValidation(int folds) {
+    public void randCrossValidation(int folds) {
 	float sumacc = 0;
 	float maxacc = 0;
 	int n;
@@ -283,53 +302,65 @@ public class NaiveBayes {
 	List<List<String>> testingset = new ArrayList<>();
         java.util.Set<Integer> testNumbers = new java.util.HashSet<>();
         java.util.Random rng = new java.util.Random();
-	for (int i=0;i<folds;i++) {
-            System.out.println("i = "+i);
-            n = fullset.size()/folds;
-            if (i < fullset.size() % folds) {
-                n++;
-            }
-            testNumbers.clear();
-            while (testNumbers.size() < n) {
-                Integer next = rng.nextInt(fullset.size()-1) + 1;
-                testNumbers.add(next);
-            }
-            testingset.clear();
-            trainingset.clear();
-            for (int j=0;j<fullset.size();j++) {
-                if (!testNumbers.contains(j)) {
-                    trainingset.add(fullset.get(j));
-                } else {
-                    testingset.add(fullset.get(j));
+	try (PrintWriter writer = new PrintWriter("result.txt", "UTF-8")) {
+            for (int i=0;i<folds;i++) {
+                n = fullset.size()/folds;
+                if (i < fullset.size() % folds) {
+                    n++;
+                }
+                testNumbers.clear();
+                while (testNumbers.size() < n) {
+                    Integer next = rng.nextInt(fullset.size()-1) + 1;
+                    testNumbers.add(next);
+                }
+                testingset.clear();
+                trainingset.clear();
+                for (int j=0;j<fullset.size();j++) {
+                    if (!testNumbers.contains(j)) {
+                        trainingset.add(fullset.get(j));
+                    } else {
+                        testingset.add(fullset.get(j));
+                    }
+                }
+                float acc = accuracy(testingset,testSet(testingset,createModel(trainingset)));
+                sumacc += acc;
+                if (acc>maxacc) maxacc = acc; 
+
+                int[][] cmatrix = confusionMatrix(testingset,testSet(testingset,createModel(trainingset)));
+                for (int j=0; j<classValues.size(); j++){
+                    for (int k=0; k<classValues.size(); k++){
+                        matrix[j][k] += (float)cmatrix[j][k];
+                    }
                 }
             }
-            float acc = accuracy(testingset,testSet(testingset,createModel(trainingset)));
-            System.out.println("Accuracy: "+acc);
-            sumacc += acc;
-            if (acc>maxacc) maxacc = acc;
-                
-            System.out.println("Confusion Matrix");
-            int[][] cmatrix = confusionMatrix(testingset,testSet(testingset,createModel(trainingset)));
+            float avgacc = (float)sumacc/(float)folds;
+            int correct = 0;
+            int incorrect = 0;
             for (int j=0; j<classValues.size(); j++){
                 for (int k=0; k<classValues.size(); k++){
-                    System.out.print(cmatrix[j][k]+ " ");
-                    matrix[j][k] += (float)cmatrix[j][k];
+                    if (j==k) correct+=matrix[j][k];
+                    else incorrect+=matrix[j][k];
                 }
-                System.out.println();
             }
-            System.out.println();
-	}
-	float avgacc = (float)sumacc/(float)folds;
-	System.out.println("Average accuracy: "+avgacc*100+"%");
-	System.out.println("Max accuracy: "+maxacc*100+"%");
-        System.out.println("Average Confusion Matrix");
-        for (int j=0; j<classValues.size(); j++){
-            for (int k=0; k<classValues.size(); k++){
-                matrix[j][k] = matrix[j][k]/(float)folds;
-                System.out.printf("%.2f",matrix[j][k]);
-                System.out.print(" ");
+            writer.println("Correctly Classified: "+correct);
+            writer.println("Incorrectly Classified: "+incorrect);
+            writer.println();
+            writer.println("Average accuracy: "+avgacc*100+"%");
+            writer.println("Max accuracy: "+maxacc*100+"%");
+            writer.println();
+            writer.println("Confusion Matrix");
+            for (int j=0; j<classValues.size(); j++){
+                for (int k=0; k<classValues.size(); k++){
+                    matrix[j][k] = matrix[j][k];
+                    writer.printf("%.2f",matrix[j][k]);
+                    writer.print(" ");
+                }
+                writer.println();
             }
-            System.out.println();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(NaiveBayes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

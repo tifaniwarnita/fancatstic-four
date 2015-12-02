@@ -1,0 +1,8 @@
+Correctly Classified Instances: 13
+Incorrectly Classified Instances: 1
+
+Accuracy: 92.85714%
+
+Confusion Matrix:
+9 0 
+1 4 
